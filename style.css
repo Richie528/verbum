@@ -1,0 +1,214 @@
+/* * {border: 1px solid red;} */
+.vertical {position: fixed; top: 0; left: 50%; width: 0px; height: 99.7%;}
+.horizontal {position: fixed; top: 50%; left: 0; width: 99.7%; height: 0px;}
+
+:root {
+  --cycle-progress-percentage: 10;
+  --test-progress-percentage: 50;
+
+  --c-base: #1e1e2e;
+  --c-mantle: #181825;
+  --c-crust: #11111b;
+  --c-surface: #313244;
+
+  --c-highlight: #ee99a0;
+  --c-lowlight: #ed8796;
+
+  --c-text: #cdd6f4;
+  --c-subtext: #9399b2;
+  --c-dim: #585b70;
+
+  --c-red: #d9515c;
+  --c-green: #53b15a;
+}
+
+html {
+  height: 99.7%;
+  width: 99.7%;
+}
+
+body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 99.7%;
+  height: 99.7%;
+
+  background-color: var(--c-base);
+  color: var(--c-text);
+  font-family: 'Golos text', monospace;
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 70%;
+  height: 80%;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+}
+
+.verbum-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 150px;
+
+  color: var(--c-text);
+  font-weight: 600;
+  font-size: 30px;
+
+  user-select: none;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 70%;
+
+  padding-top: 3px;
+
+  font-size: 12px;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 50px;
+  width: 150px;
+}
+
+.test-progress {
+  --size: 40px;
+  --half-size: calc(var(--size) / 2);
+  --stroke-width: 5px;
+  --radius: calc((var(--size) - var(--stroke-width)) / 2);
+  --circumference: calc(var(--radius) * pi * 2);
+  --dash: calc((var(--test-progress-percentage) * var(--circumference)) / 100);
+}
+
+.test-progress circle {
+  cx: var(--half-size);
+  cy: var(--half-size);
+  r: var(--radius);
+  stroke-width: var(--stroke-width);
+  fill: none;
+  stroke-linecap: round;
+}
+
+.test-progress circle.bg {
+  stroke: var(--c-red);
+}
+
+.test-progress circle.fg {
+  transform: rotate(-90deg);
+  transform-origin: var(--half-size) var(--half-size);
+  stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+  transition: stroke-dasharray 0.3s linear 0s;
+  stroke: var(--c-green);
+}
+
+.cycle-progress {
+  --size: 40px;
+  --half-size: calc(var(--size) / 2);
+  --stroke-width: 5px;
+  --radius: calc((var(--size) - var(--stroke-width)) / 2);
+  --circumference: calc(var(--radius) * pi * 2);
+  --dash: calc((var(--cycle-progress-percentage) * var(--circumference)) / 100);
+}
+
+.cycle-progress circle {
+  cx: var(--half-size);
+  cy: var(--half-size);
+  r: var(--radius);
+  stroke-width: var(--stroke-width);
+  fill: none;
+  stroke-linecap: round;
+}
+
+.cycle-progress circle.bg {
+  stroke: var(--c-surface);
+}
+
+.cycle-progress circle.fg {
+  transform: rotate(-90deg);
+  transform-origin: var(--half-size) var(--half-size);
+  stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+  transition: stroke-dasharray 0.3s linear 0s;
+  stroke: var(--c-highlight);
+}
+
+.score-count {
+  font-weight: 700;
+  user-select: none;
+}
+
+.stage-lists {
+  position: absolute;
+  top: 11%;
+  left: 2%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 88%;
+  width: 10%;
+}
+
+.stage-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 47%;
+  height: 100%;
+}
+
+.stage-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 4%;
+  width: 100%;
+
+  font-size: 10px;
+  background-color: var(--c-surface);
+  border-radius: 2px;
+  user-select: none;
+
+  transition: all 0.2s;
+}
+
+.stage-button:hover {
+  background-color: var(--c-crust);
+}
+
+.word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 10%;
+  height: 60%;
+  width: 70%;
+}
