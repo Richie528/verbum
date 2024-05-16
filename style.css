@@ -78,7 +78,7 @@ body {
 .description {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 20px;
   width: 70%;
 
   padding-top: 3px;
@@ -203,12 +203,97 @@ body {
   background-color: var(--c-crust);
 }
 
-.word {
+.words {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 
-  margin-top: 10%;
-  height: 60%;
+  margin-top: 2.5%;
+  height: 85%;
   width: 70%;
+}
+
+.p-word, .n-word {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 25%;
+  width: 80%;
+  padding-left: 20px;
+}
+
+.c-word {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 40%;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.side-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  height: 100%;
+  width: 5px;
+
+  background-color: var(--c-surface);
+}
+
+.prompt-container {
+  display: flex;
+  align-items: center;
+}
+
+.p-word .prompt, .n-word .prompt {
+  color: var(--c-text);
+  font-size: 25px;
+}
+
+.p-word .part-of-speech, .n-word .part-of-speech {
+  margin-left: 5px;
+  color: var(--c-dim);
+  font-size: 20px;
+}
+
+.p-word .translation, .n-word .translation {
+  color: var(--c-subtext);
+  font-size: 25px;
+}
+
+.p-word .full-information, .n-word .full-information {
+  padding-left: 2px;
+  color: var(--c-subtext);
+  font-size: 16px;
+}
+
+.c-word .prompt {
+  margin-top: -5px;
+  color: var(--c-text);
+  font-size: 45px;
+}
+
+.c-word .part-of-speech {
+  margin-top: -5px;
+  margin-left: 5px;
+  color: var(--c-dim);
+  font-size: 40px;
+}
+
+.c-word .translation {
+  margin-top: -7px;
+  color: var(--c-subtext);
+  font-size: 45px;
+}
+
+.c-word .full-information {
+  padding-left: 2px;
+  color: var(--c-subtext);
+  font-size: 20px;
 }
