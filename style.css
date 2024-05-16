@@ -236,7 +236,7 @@ body {
 .word-gone .translation {font-size: 0px;}
 
 .word-small {height: 25%; width: 80%;}
-.word-small .full-information {font-size: 16px;}
+.word-small .full-information {font-size: 12px;}
 .word-small .prompt {font-size: 25px;}
 .word-small .part-of-speech {font-size: 20px;}
 .word-small .translation {font-size: 25px;}
