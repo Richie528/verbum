@@ -6,6 +6,7 @@ let wordlist = [];
 let stagesSelected = [];
 let currentWordlist = [];
 let currentWords = [];
+let words = [];
 
 /* UPDATING WORD LIST */
 function updateWordList() {
@@ -39,3 +40,31 @@ for (let i = 0; i < 40; i++) {
     updateWordList();
   }
 }
+
+/* SHUFFLE WORDS */
+let normalWordState = ["word-small", "word-big", "word-small", "word-gone"];
+let animatedWordState = ["word-gone", "word-small", "word-big", "word-small"];
+words.push(document.getElementById("p"));
+words.push(document.getElementById("c"));
+words.push(document.getElementById("n"));
+words.push(document.getElementById("m"));
+function shuffleWords() {
+  for (let i = 0; i < 4; i++) {words[i].classList.remove(normalWordState[i]);}
+  for (let i = 0; i < 4; i++) {words[i].classList.add(animatedWordState[i]);}
+  setTimeout(function() {
+    for (let i = 0; i < 4; i++) {words[i].classList.add("dont-animate");}
+    for (let i = 0; i < 4; i++) {words[i].classList.add(normalWordState[i]);}
+    for (let i = 0; i < 4; i++) {words[i].classList.remove(animatedWordState[i]);}
+    for (let i = 0; i < 4; i++) {words[i].offsetHeight}
+    for (let i = 0; i < 4; i++) {words[i].classList.remove("dont-animate");}
+  }, 750);
+}
+
+document.body.addEventListener('keydown', function (event) {
+  const key = event.key;
+  switch (key) {
+    case "Enter":
+      shuffleWords();
+      console.log("ANIMATE!!");
+  }
+});
