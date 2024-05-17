@@ -60,19 +60,6 @@ function shuffleWords() {
   }, 750);
 }
 
-/* FETCH WORD INFORMATION */
-function wordInformation(word) {
-  let Httpreq = new XMLHttpRequest();
-  Httpreq.open("GET", "https://www.latin-is-simple.com/api/vocabulary/search/?query=" + word + "&forms_only=false", false);
-  Httpreq.send(null);
-  let json = JSON.parse(Httpreq.responseText);
-  console.log(json);
-}
-wordInformation("porto");
-
-
-
-
 document.body.addEventListener('keydown', function (event) {
   const key = event.key;
   switch (key) {
