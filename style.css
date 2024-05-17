@@ -229,6 +229,12 @@ body {
   transition: inherit;
 }
 
+input {
+  background: none;
+  border: none;
+  outline: none;
+}
+
 .word-gone {height: 0px; width: 0px; margin-bottom: 0px;}
 .word-gone .full-information {font-size: 0px;}
 .word-gone .prompt {font-size: 0px;}
@@ -245,7 +251,7 @@ body {
 .word-big .full-information {font-size: 20px;}
 .word-big .prompt {margin-top: -5px; font-size: 45px;}
 .word-big .part-of-speech {margin-top: -5px; font-size: 40px;}
-.word-big .translation {margin-top: -7px; font-size: 45px;}
+.word-big .translation {margin-top: -5px; font-size: 45px;}
 
 .dont-animate {
   -webkit-transition: none !important;
