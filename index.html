@@ -12,8 +12,6 @@
   <link rel = "preconnect" href = "https://fonts.googleapis.com">
   <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
   <link href = "https://fonts.googleapis.com/css2?family=Golos+Text&display=swap" rel = "stylesheet">
-
-  <meta name="csrf_token" content="r9U4L3FnCfzmpVMBRplnbh0bUrBOEb5oPSzRFPNL2ImuKr60IIaWNUYSQs7B2v1n">
 </head>
 
 <body>
@@ -31,18 +29,18 @@
         <svg width = "40" height = "40" viewBox = "0 0 40 40" class = "test-progress" xmlns = "http://www.w3.org/2000/svg">
           <circle class = "bg"></circle>
           <circle class = "fg"></circle>
-          <text x = "50%" y = "52%" text-anchor = "middle" fill = "white" 
-          font-size = "10px" font-family = "Golos Text" dy = ".3em" style = "user-select: none;">50%</text>
+          <text class = "test-progress-text" x = "50%" y = "52%" text-anchor = "middle" fill = "white" 
+          font-size = "10px" font-family = "Golos Text" dy = ".3em" style = "user-select: none;">--%</text>
         </svg>
         <!-- Cycle Progress (number and percentage of cycles) -->
         <svg width = "40" height = "40" viewBox = "0 0 40 40" class = "cycle-progress" xmlns = "http://www.w3.org/2000/svg">
           <circle class = "bg"></circle>
           <circle class = "fg"></circle>
-          <text x = "50%" y = "52%" text-anchor = "middle" fill = "white" 
-          font-size = "12px" font-family = "Golos Text" dy = ".3em" style = "user-select: none;">5</text>
+          <text class = "cycle-progress-text" x = "50%" y = "52%" text-anchor = "middle" fill = "white" 
+          font-size = "12px" font-family = "Golos Text" dy = ".3em" style = "user-select: none;">-</text>
         </svg>
         <!-- Number of words correct / Number of words tested -->
-        <div class = "score-count">10/20</div>
+        <div class = "score-count">--/--</div>
       </div>
     </div>
 

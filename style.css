@@ -3,8 +3,8 @@
 .horizontal {position: fixed; top: 50%; left: 0; width: 99.7%; height: 0px;}
 
 :root {
-  --cycle-progress-percentage: 10;
-  --test-progress-percentage: 50;
+  --cycle-progress-percentage: 100;
+  --test-progress-percentage: 100;
 
   --c-base: #1e1e2e;
   --c-mantle: #181825;
