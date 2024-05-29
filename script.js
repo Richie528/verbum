@@ -1626,6 +1626,8 @@ function correct() {
 // IF THE WORD IS WRONG
 function incorrect() {
   hPreviousInput.style.color = "#d9515c";
+  hPreviousInput.value = word[currentWords[0]][3][0];
+  console.log(word[currentWords[0]][3][0]);
   stWordsTested += 1;
 }
 
