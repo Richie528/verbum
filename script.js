@@ -1032,7 +1032,7 @@ function initialise() {
 // GET NEW WORD INFORMATION
 function getNewWord() {
   previousInput = hCurrentInput.value;
-  hCurrentInput.value = "";
+  hCurrentInput.value = hNextInput.value;
   hNextInput.value = "";
   // shift
   currentWords.splice(0, 1);
@@ -1055,7 +1055,7 @@ function run() {
     for (let i = 0; i < 4; i++) {hWords[i].classList.add(animatedWordState[i]);}
     // select next input
     hNextInput.readOnly = false;
-    hNextInput.select();
+    hNextInput.focus();
     wait = true;
     setTimeout(function() {
       // after the animation
@@ -1075,7 +1075,7 @@ function run() {
       displayStats();
       // reselect current input
       hNextInput.readOnly = true;
-      hCurrentInput.select();
+      hCurrentInput.focus();
       wait = false;
     }, 750);
   }
