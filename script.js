@@ -994,11 +994,17 @@ function clean(x) {
 
 // CHECK CORRECT OR NOT
 function check(input, translations) {
-  input = clean(input);
-  for (let i = 0; i < translations.length; i++) {
-    if (input === clean(translations[i])) return true;
+  input = input.split(",");
+  console.log(input);
+  for (let i = 0; i < input.length; i++) input[i] = clean(input[i]);
+  for (let i = 0; i < input.length; i++) {
+    let isCorrect = false;
+    for (let i = 0; i < translations.length; i++) {
+      if (input[i] === clean(translations[i])) isCorrect = true;
+    }
+    if (!isCorrect) return false;
   }
-  return false;
+  return true;
 }
 
 // INITIALISE WORDLIST AND WORDS
