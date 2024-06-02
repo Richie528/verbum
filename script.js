@@ -995,7 +995,6 @@ function clean(x) {
 // CHECK CORRECT OR NOT
 function check(input, translations) {
   input = input.split(",");
-  console.log(input);
   for (let i = 0; i < input.length; i++) input[i] = clean(input[i]);
   for (let i = 0; i < input.length; i++) {
     let isCorrect = false;
