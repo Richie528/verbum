@@ -999,8 +999,8 @@ function check(input, translations) {
   for (let i = 0; i < input.length; i++) input[i] = clean(input[i]);
   for (let i = 0; i < input.length; i++) {
     let isCorrect = false;
-    for (let i = 0; i < translations.length; i++) {
-      if (input[i] === clean(translations[i])) isCorrect = true;
+    for (let j = 0; j < translations.length; j++) {
+      if (input[i] === clean(translations[j])) isCorrect = true;
     }
     if (!isCorrect) return false;
   }
