@@ -238,7 +238,7 @@ let word = [
   ['enim', 'enim', 'c', ['for']],
   ['eō', 'eō, īre, iī', 'v', ['go']],
   ['epistula', 'epistula, epistulae, f.', 'n', ['letter']],
-  ['eques', 'eques, equitis, m.', 'n', ['horseman', 'man of equestrian rank']],
+  ['eques', 'eques, equitis, m.', 'n', ['horseman', 'man of equestrian rank', 'well-to-do man ranking below senator']],
   ['equus', 'equus, equī, m.', 'n', ['horse']],
   ['ergō', 'ergō', 'd', ['therefore']],
   ['ēripiō', 'ēripiō, ēripere, ēripuī, ēreptus', 'v', ['snatch away', 'rescue']],
@@ -891,7 +891,9 @@ let stage = [
   [23, 37, 73, 142, 158, 167, 185, 252, 350, 372, 403, 451, 471, 521, 608, 612, 717, 722, 739, 783, 799, 826]
 ]
 
-// VARIABLES
+/*----------------
+    VARIABLES
+----------------*/
 // stages
 let stagesSelected = []; 
 for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
@@ -913,10 +915,13 @@ let previousInput = "";
 // animation states
 let normalWordState = ["word-small", "word-big", "word-small", "word-gone"];
 let animatedWordState = ["word-gone", "word-small", "word-big", "word-small"];
+// states
 let wait = false;
 let chances = 1;
 
-// ELEMENTS
+/*----------------
+    ELEMENTS
+----------------*/
 // root
 let hRoot = document.querySelector(":root");
 // stage buttons
@@ -1058,6 +1063,7 @@ function run() {
     // the input is correct
     for (let i = 0; i < 4; i++) {hWords[i].classList.remove(normalWordState[i]);}
     for (let i = 0; i < 4; i++) {hWords[i].classList.add(animatedWordState[i]);}
+    hCurrentInput.style.color = "#53b15a";
     // select next input
     hNextInput.readOnly = false;
     hNextInput.focus();
@@ -1070,11 +1076,11 @@ function run() {
       // remove animations
       for (let i = 0; i < 4; i++) {hWords[i].classList.add(normalWordState[i]);}
       for (let i = 0; i < 4; i++) {hWords[i].classList.remove(animatedWordState[i]);}
-      hPreviousInput.style.color = "#9399b2";
+      hCurrentInput.style.color = "#9399b2";
+      hPreviousInput.style.color = "#53b15a";
       for (let i = 0; i < 4; i++) {hWords[i].offsetHeight}
       for (let i = 0; i < 4; i++) {hWords[i].classList.remove("dont-animate");}
-      // update colour and stats
-      hPreviousInput.style.color = "#53b15a";
+      // update stats
       stWordsTested += 1;
       stWordsCorrect += 1;
       displayStats();
@@ -1098,7 +1104,7 @@ function run() {
     }
     else {
       chances = 1;
-      // the input is correct
+      // the input is wrong
       for (let i = 0; i < 4; i++) {hWords[i].classList.remove(normalWordState[i]);}
       for (let i = 0; i < 4; i++) {hWords[i].classList.add(animatedWordState[i]);}
       hCurrentInput.style.color = "#d9515c";
@@ -1114,8 +1120,8 @@ function run() {
         // remove animations
         for (let i = 0; i < 4; i++) {hWords[i].classList.add(normalWordState[i]);}
         for (let i = 0; i < 4; i++) {hWords[i].classList.remove(animatedWordState[i]);}
-        hPreviousInput.style.color = "#d9515c";
         hCurrentInput.style.color = "#9399b2";
+        hPreviousInput.style.color = "#d9515c";
         for (let i = 0; i < 4; i++) {hWords[i].offsetHeight}
         for (let i = 0; i < 4; i++) {hWords[i].classList.remove("dont-animate");}
         // show correct translation
