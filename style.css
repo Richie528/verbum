@@ -186,11 +186,10 @@ body {
   right: 0px;
   height: 250px;
   width: 300px;
+  padding: 20px;
 
   background-color: var(--c-mantle);
   border-radius: 10px 0px 10px 10px;
-
-  padding: 20px;
 }
 
 .settings-label {
@@ -204,6 +203,22 @@ body {
   color: var(--c-text);
   font-family: "Golos text", monospace;
   font-size: 14px;
+}
+
+.settings-save {
+  margin-top: 20px;
+  height: 20px;
+  width: 40px;
+  padding: 5px;
+
+  background-color: var(--c-highlight);
+  border-radius: 5px;
+
+  color: var(--c-crust);
+}
+
+.settings-save:hover {
+  cursor: pointer;
 }
 
 .stage-lists {

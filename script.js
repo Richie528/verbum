@@ -896,6 +896,7 @@ let stage = [
 ----------------*/
 // settings
 let sSettingsOpen = false;
+let sAnimationDuration = 0.75;
 // stages
 let stagesSelected = []; 
 for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
@@ -940,6 +941,8 @@ let hNextInput = document.getElementById("n-input");
 // settings 
 let hSettingsButton = document.querySelector(".settings-icon");
 let hSettings = document.querySelector(".settings");
+let hsAnimationDuration = document.getElementById("animation-duration");
+let hSettingsSave = document.querySelector(".settings-save");
 
 // RESET STATS
 function resetStats() {
@@ -1093,7 +1096,7 @@ function run() {
       hNextInput.readOnly = true;
       hCurrentInput.focus();
       wait = false;
-    }, 750);
+    }, Math.floor(sAnimationDuration * 1000));
   }
   else {
     // the input is wrong
@@ -1105,7 +1108,7 @@ function run() {
         hCurrentInput.classList.remove("shake-animation");
         hCurrentInput.value = "";
         wait = false;
-      }, 500);
+      }, 250);
     }
     else {
       chances = 1;
@@ -1140,7 +1143,7 @@ function run() {
         hNextInput.readOnly = true;
         hCurrentInput.select();
         wait = false;
-      }, 750);
+      }, Math.floor(sAnimationDuration * 1000));
     }
   }
 }
@@ -1179,6 +1182,15 @@ display();
 hCurrentInput.select();
 
 // SETTINGS
+function displaySettings() {
+  hsAnimationDuration.value = sAnimationDuration.toString();
+}
+
+function updateSettings() {
+  sAnimationDuration = parseFloat(hsAnimationDuration.value);
+  for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s";
+}
+
 hSettingsButton.onclick = function() {
   // toggle the settings open
   sSettingsOpen = !sSettingsOpen;
@@ -1186,3 +1198,9 @@ hSettingsButton.onclick = function() {
   if (sSettingsOpen) hSettings.style.display = "block";
   if (!sSettingsOpen) hSettings.style.display = "none";
 }
+
+hSettingsSave.onclick = function() {
+  updateSettings();
+}
+
+displaySettings();
