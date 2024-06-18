@@ -894,6 +894,8 @@ let stage = [
 /*----------------
     VARIABLES
 ----------------*/
+// settings
+let sSettingsOpen = false;
 // stages
 let stagesSelected = []; 
 for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
@@ -935,6 +937,9 @@ let hWords = document.querySelectorAll(".word");
 let hCurrentInput = document.getElementById("c-input");
 let hPreviousInput = document.getElementById("p-input");
 let hNextInput = document.getElementById("n-input");
+// settings 
+let hSettingsButton = document.querySelector(".settings-icon");
+let hSettings = document.querySelector(".settings");
 
 // RESET STATS
 function resetStats() {
@@ -1172,3 +1177,12 @@ document.body.addEventListener('keydown', function (event) {
 
 display();
 hCurrentInput.select();
+
+// SETTINGS
+hSettingsButton.onclick = function() {
+  // toggle the settings open
+  sSettingsOpen = !sSettingsOpen;
+  // open or close the settings
+  if (sSettingsOpen) hSettings.style.display = "block";
+  if (!sSettingsOpen) hSettings.style.display = "none";
+}

@@ -1,3 +1,5 @@
+/* * {border: 1px solid red;} */
+
 :root {
   --cycle-progress-percentage: 100;
   --test-progress-percentage: 100;
@@ -145,6 +147,63 @@ body {
 .score-count {
   font-weight: 700;
   user-select: none;
+}
+
+.settings-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  width: 50px;
+  margin-left: 20px;
+
+  color: var(--c-highlight);
+  transition: all 0.2s;
+}
+
+.settings-icon:hover {
+  color: var(--c-lowlight);
+}
+
+.settings-icon-back {
+  position: absolute;
+  top: -60px;
+  right: 0px;
+  height: 60px;
+  width: 50px;
+  z-index: -1;
+
+  background-color: var(--c-mantle);
+  border-radius: 10px 10px 0px 0px;
+}
+
+.settings {
+  display: none;
+
+  position: absolute;
+  top: 60px;
+  right: 0px;
+  height: 250px;
+  width: 300px;
+
+  background-color: var(--c-mantle);
+  border-radius: 10px 0px 10px 10px;
+
+  padding: 20px;
+}
+
+.settings-label {
+  font-size: 15px;
+  margin-top: 10px;
+  color: var(--c-subtext);
+}
+
+.settings-input {
+  border-bottom: 1px solid var(--c-subtext);
+  color: var(--c-text);
+  font-family: "Golos text", monospace;
+  font-size: 14px;
 }
 
 .stage-lists {
