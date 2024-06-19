@@ -928,6 +928,9 @@ let chances = 1;
 ----------------*/
 // root
 let hRoot = document.querySelector(":root");
+// screens
+let hTestScreen = document.querySelector(".test");
+let hHomeScreen = document.querySelector(".home");
 // stage buttons
 let hStageButtons = document.querySelectorAll(".stage-button");
 // stats
@@ -944,7 +947,6 @@ let hSettingsButton = document.querySelector(".settings-icon");
 let hSettings = document.querySelector(".settings");
 let hsAnimationDuration = document.getElementById("animation-duration");
 let hsSecondChance = document.getElementById("second-chance");
-let hSettingsSave = document.querySelector(".settings-save");
 
 // RESET STATS
 function resetStats() {
@@ -1183,12 +1185,17 @@ document.body.addEventListener('keydown', function (event) {
 display();
 hCurrentInput.select();
 
-// SETTINGS
+/*----------------
+    SETTINGS
+----------------*/
+
+// DISPLAY SETTINGS VALUES 
 function displaySettings() {
   hsAnimationDuration.value = sAnimationDuration.toString();
   hsSecondChance.checked = sSecondChance;
 }
 
+// UPDATE THE SETTINGS (SAVE)
 function updateSettings() {
   // animation duration
   sAnimationDuration = parseFloat(hsAnimationDuration.value);
@@ -1210,8 +1217,30 @@ hSettingsButton.onclick = function() {
   if (!sSettingsOpen) hSettings.style.display = "none";
 }
 
-hSettingsSave.onclick = function() {
-  updateSettings();
-}
+hsAnimationDuration.onkeyup = function() {updateSettings()};
+hsSecondChance.onclick = function() {updateSettings()};
 
 displaySettings();
+
+/*----------------
+    SCREENS
+----------------*/
+
+function changeScreen(screenNum) {
+  // home screen
+  if (screenNum === 0) hHomeScreen.style.display = "flex";
+  else hHomeScreen.style.display = "none";
+  // test screen
+  if (screenNum === 1) hTestScreen.style.display = "flex";
+  else hTestScreen.style.display = "none";
+  // end screen
+  // if (screenNum === 2) hEndScreen.style.display = "flex";
+  // else hEndScreen.style.display = "none";
+}
+
+let hScreenToggle = document.getElementById("screen");
+hScreenToggle.onclick = function() {
+  console.log(hScreenToggle.checked);
+  if (hScreenToggle.checked) changeScreen(0);
+  else changeScreen(1);
+}
