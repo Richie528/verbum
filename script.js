@@ -897,6 +897,7 @@ let stage = [
 // settings
 let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
+let sSecondChance = true;
 // stages
 let stagesSelected = []; 
 for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
@@ -942,6 +943,7 @@ let hNextInput = document.getElementById("n-input");
 let hSettingsButton = document.querySelector(".settings-icon");
 let hSettings = document.querySelector(".settings");
 let hsAnimationDuration = document.getElementById("animation-duration");
+let hsSecondChance = document.getElementById("second-chance");
 let hSettingsSave = document.querySelector(".settings-save");
 
 // RESET STATS
@@ -1067,7 +1069,7 @@ function getNewWord() {
 // RUN
 function run() {
   if (check(clean(hCurrentInput.value), word[currentWords[1]][3])) {
-    chances = 1;
+    if (sSecondChance) chances = 1;
     // the input is correct
     for (let i = 0; i < 4; i++) {hWords[i].classList.remove(normalWordState[i]);}
     for (let i = 0; i < 4; i++) {hWords[i].classList.add(animatedWordState[i]);}
@@ -1111,7 +1113,7 @@ function run() {
       }, 250);
     }
     else {
-      chances = 1;
+      if (sSecondChance) chances = 1;
       // the input is wrong
       for (let i = 0; i < 4; i++) {hWords[i].classList.remove(normalWordState[i]);}
       for (let i = 0; i < 4; i++) {hWords[i].classList.add(animatedWordState[i]);}
@@ -1184,11 +1186,20 @@ hCurrentInput.select();
 // SETTINGS
 function displaySettings() {
   hsAnimationDuration.value = sAnimationDuration.toString();
+  hsSecondChance.checked = sSecondChance;
 }
 
 function updateSettings() {
+  // animation duration
   sAnimationDuration = parseFloat(hsAnimationDuration.value);
   for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s";
+  sSecondChance = hsSecondChance.checked;
+  // second chance
+  if (sSecondChance) chances = 1;
+  else chances = 0;
+  // logging
+  console.log(sAnimationDuration);
+  console.log(sSecondChance);
 }
 
 hSettingsButton.onclick = function() {

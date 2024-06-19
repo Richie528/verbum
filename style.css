@@ -198,11 +198,49 @@ body {
   color: var(--c-subtext);
 }
 
-.settings-input {
+.settings-input-text {
   border-bottom: 1px solid var(--c-subtext);
   color: var(--c-text);
   font-family: "Golos text", monospace;
   font-size: 14px;
+}
+
+.settings-input-toggle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+
+  position: relative;
+  margin: 4px 0px 0px 0px;
+  width: 40px;
+  height: 20px;
+  
+  border-radius: 5px;
+  background-color: var(--c-subtext);
+  transition: background-color 0.3s;
+}
+
+.settings-input-toggle:before {
+  content: "";
+  background: whitesmoke;
+  border-radius: 5px;
+  transition: all 0.25s;
+
+  position: absolute;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  left: 2px;
+  top: 2px;
+}
+
+.settings-input-toggle:checked {
+  background-color: var(--c-green);
+}
+
+.settings-input-toggle:checked:before {
+  left: 22px;
 }
 
 .settings-save {
@@ -215,11 +253,18 @@ body {
   border-radius: 5px;
 
   color: var(--c-crust);
+  transition: all 0.2s;
 }
 
 .settings-save:hover {
   cursor: pointer;
+  background-color: #e48c99;
 }
+
+.settings-save:active {
+  background-color: var(--c-lowlight)
+}
+
 
 .stage-lists {
   position: absolute;
