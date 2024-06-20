@@ -929,8 +929,13 @@ let chances = 1;
 // root
 let hRoot = document.querySelector(":root");
 // screens
-let hTestScreen = document.querySelector(".test");
-let hHomeScreen = document.querySelector(".home");
+let hTestScreen = document.querySelectorAll(".test");
+let hHomeScreen = document.querySelectorAll(".home");
+// test options input
+let hTestOptions = document.getElementById("test-options");
+// start buttons
+let hStartButton = document.querySelector(".start-button");
+let hFreeButton = document.querySelector(".free-button");
 // stage buttons
 let hStageButtons = document.querySelectorAll(".stage-button");
 // stats
@@ -1228,14 +1233,20 @@ displaySettings();
 
 function changeScreen(screenNum) {
   // home screen
-  if (screenNum === 0) hHomeScreen.style.display = "flex";
-  else hHomeScreen.style.display = "none";
+  for (let element of hHomeScreen) {
+    if (screenNum === 0) element.style.visibility = 'visible';
+    else element.style.visibility = 'hidden';
+  }
   // test screen
-  if (screenNum === 1) hTestScreen.style.display = "flex";
-  else hTestScreen.style.display = "none";
+  for (let element of hTestScreen) {
+    if (screenNum === 1) element.style.visibility = 'visible';
+    else element.style.visibility = 'hidden';
+  }
   // end screen
-  // if (screenNum === 2) hEndScreen.style.display = "flex";
-  // else hEndScreen.style.display = "none";
+  // for (let element of hEndScreen) {
+  //   if (screenNum === 2) element.style.visibility = 'visible';
+  //   else element.style.visibility = 'hidden';
+  // }
 }
 
 let hScreenToggle = document.getElementById("screen");
@@ -1244,3 +1255,9 @@ hScreenToggle.onclick = function() {
   if (hScreenToggle.checked) changeScreen(0);
   else changeScreen(1);
 }
+
+hTestOptions.value = "test";
+hStartButton.onclick = function() {console.log("start")};
+hFreeButton.onclick = function() {console.log("free")};
+
+changeScreen(0);

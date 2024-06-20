@@ -53,20 +53,6 @@ body {
   width: 1080px; height: 620px;
 }
 
-.test {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 1080px; height: 620px;
-}
-
-.home {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 1080px; height: 620px;
-}
-
 .top-bar {
   display: flex;
   align-items: center;
@@ -179,7 +165,7 @@ body {
   margin-left: 20px;
 
   color: var(--c-highlight);
-  transition: all 0.2s;
+  transition: color 0.2s;
 }
 
 .settings-icon:hover {
@@ -245,7 +231,7 @@ body {
   content: "";
   background: whitesmoke;
   border-radius: 5px;
-  transition: all 0.25s;
+  transition: left 0.25s;
 
   position: absolute;
   z-index: 2;
@@ -294,19 +280,89 @@ body {
   border-radius: 2px;
   user-select: none;
 
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 }
 
 .stage-button:hover {
   background-color: var(--c-crust);
 }
 
-.words {
+.start {
+  position: absolute;
+  top: 45px;
+  left: 150px;
   display: flex;
   flex-direction: column;
 
   margin-top: 2.5%;
-  height: 100%; width: 70%;
+  height: 540px; width: 775px;
+}
+
+.test-options-explanation {
+  margin-top: -5px;
+  padding: 20px;
+  width: 500px;
+  border-radius: 2px;
+
+  font-size: 16px;
+  background-color: var(--c-mantle);
+}
+
+.example {
+  font-family: monospace;
+  color: var(--c-subtext);
+}
+
+.test-options-input {
+  margin-top: 10px;
+  padding: 10px 10px 10px 20px;
+  width: 510px;
+  height: 30px;
+
+  background-color: var(--c-mantle);
+  font-family: monospace;
+  font-size: 16px;
+  color: var(--c-lowlight);
+}
+
+.start-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  margin-top: 20px;
+
+  background-color: var(--c-highlight);
+  color: var(--c-mantle);
+}
+
+.free-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-top: 20px;
+
+  background-color: #a7adc6;
+  color: var(--c-mantle);
+}
+
+.words {
+  position: absolute;
+  top: 45px;
+  left: 150px;
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 2.5%;
+  height: 550px; width: 775px;
 }
 
 .word {
@@ -316,7 +372,7 @@ body {
   justify-content: center;
   padding-left: 20px;
   margin-bottom: 20px;
-  transition: all 0.5s, margin-bottom 0.75s;
+  transition: all 0.5s, margin-bottom 0.75s, visibility 0s;
 }
 
 .full-name {
