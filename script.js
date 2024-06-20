@@ -977,7 +977,7 @@ function displayStats() {
   // cycle progress
   stCycleCount = Math.floor(stWordsTested / selectedWordlist.length);
   hCycleProgress.textContent = stCycleCount;
-  stCyclePercentage = Math.floor(((selectedWordlist.length - stWordsTested % selectedWordlist.legnth) / selectedWordlist.length) * 100);
+  stCyclePercentage = Math.floor(((stWordsTested % selectedWordlist.length) / selectedWordlist.length) * 100);
   if (selectedWordlist.length === 0) stCyclePercentage = 0;
   hRoot.style.setProperty("--cycle-progress-percentage", stCyclePercentage);
   // score count
@@ -1010,14 +1010,12 @@ function getWordInfo() {
 function checkEndTest() {
   if (testOptionsType === 0) {
     if (stCycleCount >= testOptionsValue) {
-      // end test
-      console.log("end test");
+      changeScreen(0);
     }
   } 
   if (testOptionsType === 1) {
     if (stWordsTested >= testOptionsValue) {
-      // end test
-      console.log("end test");
+      changeScreen(0);
     }
   }
 }
@@ -1176,7 +1174,7 @@ function run() {
       }, Math.floor(sAnimationDuration * 1000));
     }
   }
-  setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 1);
+  setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 100);
 }
 
 // STAGE SELECTION
@@ -1226,7 +1224,7 @@ function displaySettings() {
 function updateSettings() {
   // animation duration
   sAnimationDuration = parseFloat(hsAnimationDuration.value);
-  for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s";
+  for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s, visibility 0s";
   sSecondChance = hsSecondChance.checked;
   // second chance
   if (sSecondChance) chances = 1;
@@ -1246,7 +1244,6 @@ hSettingsButton.onclick = function() {
 
 hsAnimationDuration.onkeyup = function() {updateSettings()};
 hsSecondChance.onclick = function() {updateSettings()};
-
 displaySettings();
 
 /*----------------
@@ -1297,13 +1294,6 @@ function free() {
   hTimer.style.visibility = "hidden";
   // start the test!
   initialise();
-}
-
-let hScreenToggle = document.getElementById("screen");
-hScreenToggle.onclick = function() {
-  console.log(hScreenToggle.checked);
-  if (hScreenToggle.checked) changeScreen(0);
-  else changeScreen(1);
 }
 
 hTestOptions.value = "test";

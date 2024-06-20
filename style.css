@@ -1,11 +1,5 @@
 /* * {border: 1px solid red;} */
 
-.screen-toggle {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
 :root {
   --cycle-progress-percentage: 100;
   --test-progress-percentage: 100;
