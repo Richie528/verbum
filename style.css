@@ -87,7 +87,12 @@ body {
   align-items: center;
   justify-content: space-between;
 
-  height: 50px; width: 150px;
+  height: 50px; width: 200px;
+}
+
+.timer {
+  font-size: 20px;
+  color: var(--c-subtext);
 }
 
 .test-progress {
@@ -151,7 +156,6 @@ body {
 }
 
 .score-count {
-  font-weight: 700;
   user-select: none;
 }
 
@@ -284,7 +288,7 @@ body {
 }
 
 .stage-button:hover {
-  background-color: var(--c-crust);
+  background-color: var(--c-crust) !important;
 }
 
 .start {
@@ -337,6 +341,11 @@ body {
 
   background-color: var(--c-highlight);
   color: var(--c-mantle);
+  user-select: none;
+}
+
+.start-button:hover {
+  cursor: pointer;
 }
 
 .free-button {
@@ -352,6 +361,11 @@ body {
 
   background-color: #a7adc6;
   color: var(--c-mantle);
+  user-select: none;
+}
+
+.free-button:hover {
+  cursor: pointer;
 }
 
 .words {

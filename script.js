@@ -898,6 +898,10 @@ let stage = [
 let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
 let sSecondChance = true;
+// test options
+let testOptionsTypes = ["cycle", "word", "s", "m"];
+let testOptionsType = 0;
+let testOptionsValue = 0;
 // stages
 let stagesSelected = []; 
 for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
@@ -939,6 +943,7 @@ let hFreeButton = document.querySelector(".free-button");
 // stage buttons
 let hStageButtons = document.querySelectorAll(".stage-button");
 // stats
+let hTimer = document.querySelector(".timer");
 let hCycleProgress = document.querySelector(".cycle-progress-text");
 let hTestProgress = document.querySelector(".test-progress-text");
 let hScoreCount = document.querySelector(".score-count");
@@ -970,8 +975,9 @@ function displayStats() {
   hTestProgress.textContent = stCorrectPercentage.toString() + "%";
   hRoot.style.setProperty("--test-progress-percentage", stCorrectPercentage);
   // cycle progress
+  stCycleCount = Math.floor(stWordsTested / selectedWordlist.length);
   hCycleProgress.textContent = stCycleCount;
-  stCyclePercentage = Math.floor(((selectedWordlist.length - currentWordlist.length - 3) / selectedWordlist.length) * 100);
+  stCyclePercentage = Math.floor(((selectedWordlist.length - stWordsTested % selectedWordlist.legnth) / selectedWordlist.length) * 100);
   if (selectedWordlist.length === 0) stCyclePercentage = 0;
   hRoot.style.setProperty("--cycle-progress-percentage", stCyclePercentage);
   // score count
@@ -997,6 +1003,22 @@ function getWordInfo() {
     currentPrompts[i] = word[currentWords[i]][0];
     currentPoss[i] = word[currentWords[i]][2];
     currentFullNames[i] = word[currentWords[i]][1];
+  }
+}
+
+// CHECK IF THE TEST SHOULD END
+function checkEndTest() {
+  if (testOptionsType === 0) {
+    if (stCycleCount >= testOptionsValue) {
+      // end test
+      console.log("end test");
+    }
+  } 
+  if (testOptionsType === 1) {
+    if (stWordsTested >= testOptionsValue) {
+      // end test
+      console.log("end test");
+    }
   }
 }
 
@@ -1058,6 +1080,9 @@ function initialise() {
 
 // GET NEW WORD INFORMATION
 function getNewWord() {
+  if (currentWordlist.length === 0) {
+    currentWordlist = [...selectedWordlist];
+  }
   previousInput = hCurrentInput.value;
   hCurrentInput.value = hNextInput.value;
   hNextInput.value = "";
@@ -1066,10 +1091,6 @@ function getNewWord() {
   let random = Math.floor(Math.random() * currentWordlist.length);
   currentWords.push(currentWordlist[random]);
   currentWordlist.splice(random, 1);
-  if (currentWordlist.length === 0) {
-    currentWordlist = [...selectedWordlist];
-    stCycleCount += 1;
-  }
   display();
 }
 
@@ -1155,6 +1176,7 @@ function run() {
       }, Math.floor(sAnimationDuration * 1000));
     }
   }
+  setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 1);
 }
 
 // STAGE SELECTION
@@ -1242,11 +1264,39 @@ function changeScreen(screenNum) {
     if (screenNum === 1) element.style.visibility = 'visible';
     else element.style.visibility = 'hidden';
   }
-  // end screen
-  // for (let element of hEndScreen) {
-  //   if (screenNum === 2) element.style.visibility = 'visible';
-  //   else element.style.visibility = 'hidden';
-  // }
+}
+
+function startTest() {
+  let testOptionsInput = hTestOptions.value.split(" ");
+  // if not a valid test option
+  if (!testOptionsTypes.includes(testOptionsInput[0]) || Number.isNaN(parseInt(testOptionsInput[1]))) {
+    hTestOptions.classList.add("shake-animation");
+    setTimeout(function() {hTestOptions.classList.remove("shake-animation")}, 250);
+    return;
+  }
+
+  // change the screen
+  changeScreen(1);
+  // get settings
+  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
+  testOptionsValue = parseInt(testOptionsInput[1]);
+  // hide the timer if not a timed test
+  if (testOptionsType < 2) hTimer.style.visibility = "hidden";
+  else hTimer.style.visibility = "visible";
+  // start the test
+  initialise();
+}
+
+function free() {
+  // change the screen
+  changeScreen(1);
+  // remove test options
+  testOptionsType = -1;
+  testOptionsValue = 0;
+  // hide the timer
+  hTimer.style.visibility = "hidden";
+  // start the test!
+  initialise();
 }
 
 let hScreenToggle = document.getElementById("screen");
@@ -1257,7 +1307,7 @@ hScreenToggle.onclick = function() {
 }
 
 hTestOptions.value = "test";
-hStartButton.onclick = function() {console.log("start")};
-hFreeButton.onclick = function() {console.log("free")};
+hStartButton.onclick = function() {startTest()};
+hFreeButton.onclick = function() {free()};
 
 changeScreen(0);
