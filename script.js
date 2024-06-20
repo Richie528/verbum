@@ -926,6 +926,7 @@ let animatedWordState = ["word-gone", "word-small", "word-big", "word-small"];
 // states
 let wait = false;
 let chances = 1;
+let canSelectStages = true;
 
 /*----------------
     ELEMENTS
@@ -1011,11 +1012,13 @@ function checkEndTest() {
   if (testOptionsType === 0) {
     if (stCycleCount >= testOptionsValue) {
       changeScreen(0);
+      canSelectStages = true;
     }
   } 
   if (testOptionsType === 1) {
     if (stWordsTested >= testOptionsValue) {
       changeScreen(0);
+      canSelectStages = true;
     }
   }
 }
@@ -1180,6 +1183,7 @@ function run() {
 // STAGE SELECTION
 for (let i = 0; i < 40; i++) {
   hStageButtons[i].onclick = function(event) {
+    if (!canSelectStages) return;
     // shift click: toggle up to
     if (event.shiftKey) {
       for (let j = 0; j <= i; j++) {
@@ -1280,6 +1284,8 @@ function startTest() {
   // hide the timer if not a timed test
   if (testOptionsType < 2) hTimer.style.visibility = "hidden";
   else hTimer.style.visibility = "visible";
+  // freeze stage lists
+  canSelectStages = false;
   // start the test
   initialise();
 }
