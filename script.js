@@ -906,8 +906,8 @@ let testOptionsValue = 0;
 let time = 0;
 let timerInterval;
 // stages
-let stagesSelected = []; 
-for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
+let stagesSelected = "0000000000000000000000000000000000000000";
+if (read("stages-selected") !== "") stagesSelected = read("stages-selected");
 // stats
 let stCycleCount = 0;
 let stCyclePercentage = 0;
@@ -962,6 +962,26 @@ let hSettings = document.querySelector(".settings");
 let hsAnimationDuration = document.getElementById("animation-duration");
 let hsSecondChance = document.getElementById("second-chance");
 
+// WRITE TO LOCAL STORAGE
+function write(key, value) {
+  const d = new Date();
+  d.setTime(d.getTime() + 86400000000);
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = key + "=" + value + ";" + expires + ";path=/";
+}
+
+// WRITE TO LOCAL STORAGE
+function read(key) {
+  key = key + "=";
+  let cookies = decodeURIComponent(document.cookie);
+  cookies = cookies.split(";");
+  for (let cookie of cookies) {
+    while (cookie.charAt(0) == ' ') cookie = cookie.substring(1);
+    if (cookie.indexOf(key) == 0) return cookie.substring(key.length, cookie.length);
+  }
+  return "";
+}
+
 // RESET STATS
 function resetStats() {
   stCycleCount = 0;
@@ -992,6 +1012,14 @@ function displayTimer() {
   hTimer.textContent = ("00" + Math.floor(time / 60)).slice(-2) + 
                  ":" + ("00" + (time % 60)).slice(-2);
 }
+
+function displayStages() {
+  for (let i = 0; i < 40; i++) {
+    if (stagesSelected[i] === "0") hStageButtons[i].style.backgroundColor = "#313244";
+    else hStageButtons[i].style.backgroundColor = "#11111b";
+  }
+}
+displayStages();
 
 // DISPLAY WORDS
 function displayWords() {
@@ -1071,7 +1099,7 @@ function initialise() {
   selectedWordlist = [];
   let aStageIsSelected = false;
   for (let i = 0; i < 40; i++) {
-    if (stagesSelected[i]) { // if a stage it selected
+    if (stagesSelected[i] === '1') { // if a stage it selected
       aStageIsSelected = true;
       // add all words in the stage
       for (let j = 0; j < stage[i].length; j++) {
@@ -1200,18 +1228,16 @@ for (let i = 0; i < 40; i++) {
     if (!canSelectStages) return;
     // shift click: toggle up to
     if (event.shiftKey) {
-      for (let j = 0; j <= i; j++) {
-        if (stagesSelected[i]) {hStageButtons[j].style.backgroundColor = "#313244";}
-        else {hStageButtons[j].style.backgroundColor = "#11111b";}
-        stagesSelected[j] = !stagesSelected[i];
-      }
+      if (stagesSelected[i] === "0") stagesSelected = "1".repeat(i + 1) + stagesSelected.substring(i + 1);
+      else stagesSelected = "0".repeat(i + 1) + stagesSelected.substring(i + 1);
     }
     // normal click: toggle single
     else {
-      if (stagesSelected[i]) {hStageButtons[i].style.backgroundColor = "#313244";}
-      else {hStageButtons[i].style.backgroundColor = "#11111b";}
-      stagesSelected[i] = !stagesSelected[i];
+      if (stagesSelected[i] === "0") stagesSelected = stagesSelected.substring(0, i) + "1" + stagesSelected.substring(i + 1);
+      else stagesSelected = stagesSelected.substring(0, i) + "0" + stagesSelected.substring(i + 1);
     }
+    displayStages();
+    write("stages-selected", stagesSelected);
     initialise();
   }
 }
@@ -1232,8 +1258,17 @@ hCurrentInput.select();
     SETTINGS
 ----------------*/
 
+function loadSettings() {
+  // read settings from local storage
+  if (read("animation-duration") !== "") sAnimationDuration = parseFloat(read("animation-duration"));
+  if (read("second-chance") !== "") sSecondChance = read("second-chance") === "true";
+  displaySettings();
+}
+loadSettings();
+
 // DISPLAY SETTINGS VALUES 
 function displaySettings() {
+  // display settings in settings panel
   hsAnimationDuration.value = sAnimationDuration.toString();
   hsSecondChance.checked = sSecondChance;
 }
@@ -1243,10 +1278,13 @@ function updateSettings() {
   // animation duration
   sAnimationDuration = parseFloat(hsAnimationDuration.value);
   for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s, visibility 0s";
-  sSecondChance = hsSecondChance.checked;
   // second chance
+  sSecondChance = hsSecondChance.checked;
   if (sSecondChance) chances = 1;
   else chances = 0;
+  // write settings to local storage
+  write("animation-duration", sAnimationDuration.toString());
+  write("second-chance", sSecondChance.toString());
 }
 
 hSettingsButton.onclick = function() {

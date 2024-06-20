@@ -70,7 +70,7 @@ body {
 .description {
   display: flex;
   align-items: center;
-  height: 20px; width: 70%;
+  height: 20px; width: 60%;
 
   padding-top: 3px;
   font-size: 12px;
