@@ -939,11 +939,15 @@ let hRoot = document.querySelector(":root");
 // screens
 let hTestScreen = document.querySelectorAll(".test");
 let hHomeScreen = document.querySelectorAll(".home");
+let hEndScreen = document.querySelectorAll(".end");
 // test options input
 let hTestOptions = document.getElementById("test-options");
-// start buttons
+// buttons
 let hStartButton = document.querySelector(".start-button");
 let hFreeButton = document.querySelector(".free-button");
+let hHomeButton = document.querySelector(".home-button");
+let hAgainButton = document.querySelector(".again-button");
+let hTiwaButton = document.querySelector(".tiwa-button");
 // stage buttons
 let hStageButtons = document.querySelectorAll(".stage-button");
 // stats
@@ -1314,6 +1318,11 @@ function changeScreen(screenNum) {
     if (screenNum === 1) element.style.visibility = 'visible';
     else element.style.visibility = 'hidden';
   }
+  // end screen
+  for (let element of hEndScreen) {
+    if (screenNum === 2) element.style.visibility = 'visible';
+    else element.style.visibility = 'hidden';
+  }
 }
 
 function startTest() {
@@ -1371,4 +1380,4 @@ function free() {
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 
-changeScreen(0);
+changeScreen(2);
