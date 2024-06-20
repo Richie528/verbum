@@ -1324,6 +1324,12 @@ function startTest() {
     setTimeout(function() {hTestOptions.classList.remove("shake-animation")}, 250);
     return;
   }
+  // if no stages are selected
+  if (stagesSelected === "0000000000000000000000000000000000000000") {
+    document.querySelector(".select-stages-prompt").classList.add("shake-animation");
+    setTimeout(function() {document.querySelector(".select-stages-prompt").classList.remove("shake-animation")}, 250);
+    return;
+  }
 
   // change the screen
   changeScreen(1);
