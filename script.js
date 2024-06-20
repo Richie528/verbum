@@ -902,6 +902,9 @@ let sSecondChance = true;
 let testOptionsTypes = ["cycle", "word", "s", "m"];
 let testOptionsType = 0;
 let testOptionsValue = 0;
+// timer
+let time = 0;
+let timerInterval;
 // stages
 let stagesSelected = []; 
 for (let i = 0; i < 40; i++) {stagesSelected.push(false);}
@@ -985,6 +988,11 @@ function displayStats() {
   hScoreCount.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
 }
 
+function displayTimer() {
+  hTimer.textContent = ("00" + Math.floor(time / 60)).slice(-2) + 
+                 ":" + ("00" + (time % 60)).slice(-2);
+}
+
 // DISPLAY WORDS
 function displayWords() {
   // prompt, pos, full name
@@ -1007,18 +1015,24 @@ function getWordInfo() {
   }
 }
 
+// END THE TEST
+function endTest() {
+  changeScreen(0);
+  canSelectStages = true;
+  clearInterval(timerInterval);
+  time = 0;
+}
+
 // CHECK IF THE TEST SHOULD END
 function checkEndTest() {
   if (testOptionsType === 0) {
     if (stCycleCount >= testOptionsValue) {
-      changeScreen(0);
-      canSelectStages = true;
+      endTest();
     }
   } 
   if (testOptionsType === 1) {
     if (stWordsTested >= testOptionsValue) {
-      changeScreen(0);
-      canSelectStages = true;
+      endTest();
     }
   }
 }
@@ -1233,9 +1247,6 @@ function updateSettings() {
   // second chance
   if (sSecondChance) chances = 1;
   else chances = 0;
-  // logging
-  console.log(sAnimationDuration);
-  console.log(sSecondChance);
 }
 
 hSettingsButton.onclick = function() {
@@ -1284,6 +1295,17 @@ function startTest() {
   // hide the timer if not a timed test
   if (testOptionsType < 2) hTimer.style.visibility = "hidden";
   else hTimer.style.visibility = "visible";
+  // if timed test, calculate the time and start timer
+  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
+  time = testOptionsValue;
+  displayTimer();
+  timerInterval = setInterval(function() {
+    time -= 1;
+    displayTimer();
+  }, 1000);
+  setTimeout(function() {
+    endTest();
+  }, 1000 * testOptionsValue);
   // freeze stage lists
   canSelectStages = false;
   // start the test
@@ -1302,7 +1324,6 @@ function free() {
   initialise();
 }
 
-hTestOptions.value = "test";
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 
