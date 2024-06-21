@@ -894,11 +894,23 @@ let stage = [
 /*----------------
     VARIABLES
 ----------------*/
+
 // settings
 let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
 let sSecondChance = true;
 let sDopamineBox = true;
+// stages
+let stagesSelected = "0000000000000000000000000000000000000000";
+// timer
+let time = 0;
+let timerInterval;
+// stats
+let stCycleCount = 0;
+let stCyclePercentage = 0;
+let stWordsTested = 0;
+let stWordsCorrect = 0;
+let stCorrectPercentage = 0;
 // dopamine box
 let currentDay = (new Date(Date.now()).getDay() + 6) % 7;
 let currentWeek = Math.floor(Date.now() / 86400000) - currentDay;
@@ -909,18 +921,6 @@ let dbTestsCompleted = "0000000";
 let testOptionsTypes = ["cycle", "word", "s", "m"];
 let testOptionsType = 0;
 let testOptionsValue = 0;
-// timer
-let time = 0;
-let timerInterval;
-// stages
-let stagesSelected = "0000000000000000000000000000000000000000";
-if (read("stages-selected") !== "") stagesSelected = read("stages-selected");
-// stats
-let stCycleCount = 0;
-let stCyclePercentage = 0;
-let stWordsTested = 0;
-let stWordsCorrect = 0;
-let stCorrectPercentage = 0;
 // word list
 let selectedWordlist = [0];
 let currentWordlist = [0];
@@ -940,14 +940,32 @@ let chances = 1;
 let canSelectStages = true;
 
 /*----------------
-    ELEMENTS
+     ELEMENTS
 ----------------*/
+
 // root
 let hRoot = document.querySelector(":root");
 // screens
 let hTestScreen = document.querySelectorAll(".test");
 let hHomeScreen = document.querySelectorAll(".home");
 let hEndScreen = document.querySelectorAll(".end");
+// settings 
+let hSettingsButton = document.querySelector(".settings-icon");
+let hSettings = document.querySelector(".settings");
+let hsAnimationDuration = document.getElementById("animation-duration");
+let hsSecondChance = document.getElementById("second-chance");
+let hsDopamineBox = document.getElementById("dopamine-box");
+// stage buttons
+let hStageButtons = document.querySelectorAll(".stage-button");
+// stats
+let hTimer = document.querySelector(".timer");
+let hCycleProgress = document.querySelector(".cycle-progress-text");
+let hTestProgress = document.querySelector(".test-progress-text");
+let hScoreCount = document.querySelector(".score-count");
+// dopamine box
+let hDopamineBox = document.querySelector(".dopamine-box");
+let hDBWeek = document.querySelector(".db-week");
+let hDBDays = document.querySelectorAll(".db-day");
 // test options input
 let hTestOptions = document.getElementById("test-options");
 // buttons
@@ -957,34 +975,21 @@ let hHomeButton = document.querySelector(".home-button");
 let hAgainButton = document.querySelector(".again-button");
 let hTiwaButton = document.querySelector(".tiwa-button");
 let hEndTestButton = document.querySelector(".end-test-button");
-// stage buttons
-let hStageButtons = document.querySelectorAll(".stage-button");
-// stats
-let hTimer = document.querySelector(".timer");
-let hCycleProgress = document.querySelector(".cycle-progress-text");
-let hTestProgress = document.querySelector(".test-progress-text");
-let hScoreCount = document.querySelector(".score-count");
 // current words
 let hWords = document.querySelectorAll(".word");
 let hCurrentInput = document.getElementById("c-input");
 let hPreviousInput = document.getElementById("p-input");
 let hNextInput = document.getElementById("n-input");
-// settings 
-let hSettingsButton = document.querySelector(".settings-icon");
-let hSettings = document.querySelector(".settings");
-let hsAnimationDuration = document.getElementById("animation-duration");
-let hsSecondChance = document.getElementById("second-chance");
-let hsDopamineBox = document.getElementById("dopamine-box");
-// dopamine box
-let hDopamineBox = document.querySelector(".dopamine-box");
-let hDBWeek = document.querySelector(".db-week");
-let hDBDays = document.querySelectorAll(".db-day");
 // end screen
 let hResults = document.querySelector(".results");
 let hResultBar = document.querySelector(".result-bar");
 let hResultBarInner = document.querySelector(".result-bar-inner");
 let hWordResults = document.querySelector(".word-results");
 let hWordResultEx = document.querySelector(".word-result-example");
+
+/*----------------
+     UTILITY
+----------------*/
 
 // WRITE TO LOCAL STORAGE
 function write(key, value) {
@@ -994,7 +999,7 @@ function write(key, value) {
   document.cookie = key + "=" + value + ";" + expires + ";path=/";
 }
 
-// WRITE TO LOCAL STORAGE
+// READ FROM LOCAL STORAGE
 function read(key) {
   key = key + "=";
   let cookies = decodeURIComponent(document.cookie);
@@ -1002,6 +1007,7 @@ function read(key) {
   for (let cookie of cookies) {
     while (cookie.charAt(0) == ' ') cookie = cookie.substring(1);
     if (cookie.indexOf(key) == 0) return cookie.substring(key.length, cookie.length);
+    // eat(cookie);
   }
   return "";
 }
@@ -1011,6 +1017,136 @@ function sortComparator(a, b) {
   if (a[1] - a[2] === b[1] - b[2]) return (a[0] < b[0]) ? -1 : 1;
   else return (a[1] - a[2] > b[1] - b[2]) ? -1 : 1;
 }
+
+// REMOVE CASE AND STRIP STRING
+function clean(x) {
+  x = x.toLowerCase();
+  x = x.trim();
+  return x;
+}
+
+// CHANGE SCREEN
+function changeScreen(screenNum) {
+  // home screen
+  for (let element of hHomeScreen) {
+    if (screenNum === 0) element.style.visibility = 'visible';
+    else element.style.visibility = 'hidden';
+  }
+  // test screen
+  for (let element of hTestScreen) {
+    if (screenNum === 1) element.style.visibility = 'visible';
+    else element.style.visibility = 'hidden';
+  }
+  // end screen
+  for (let element of hEndScreen) {
+    if (screenNum === 2) element.style.visibility = 'visible';
+    else element.style.visibility = 'hidden';
+  }
+}
+
+/*----------------
+     SETTINGS
+----------------*/
+
+// LOAD SETTINGS FROM LOCAL STORAGE
+function loadSettings() {
+  // read settings from local storage
+  if (read("animation-duration") !== "") sAnimationDuration = parseFloat(read("animation-duration"));
+  if (read("second-chance") !== "") sSecondChance = read("second-chance") === "true";
+  if (read("dopamine-box") !== "") sDopamineBox = read("dopamine-box") === "true";
+  displaySettings();
+  updateSettings();
+}
+
+// DISPLAY SETTINGS VALUES 
+function displaySettings() {
+  // display settings in settings panel
+  hsAnimationDuration.value = sAnimationDuration.toString();
+  hsSecondChance.checked = sSecondChance;
+  hsDopamineBox.checked = sDopamineBox;
+}
+
+// UPDATE THE SETTINGS (SAVE)
+function updateSettings() {
+  // animation duration
+  sAnimationDuration = parseFloat(hsAnimationDuration.value);
+  for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s, visibility 0s";
+  // second chance
+  sSecondChance = hsSecondChance.checked;
+  if (sSecondChance) chances = 1;
+  else chances = 0;
+  // dopamine box
+  sDopamineBox = hsDopamineBox.checked;
+  if (sDopamineBox) hDopamineBox.style.display = "block";
+  else hDopamineBox.style.display = "none";
+  // write settings to local storage
+  write("animation-duration", sAnimationDuration.toString());
+  write("second-chance", sSecondChance.toString());
+  write("dopamine-box", sDopamineBox.toString());
+}
+
+// SHOW SETTINGS PANEL WHEN ICON IS CLICKED (TOGGLE)
+hSettingsButton.onclick = function() {
+  // toggle the settings open
+  sSettingsOpen = !sSettingsOpen;
+  // open or close the settings
+  if (sSettingsOpen) hSettings.style.display = "block";
+  if (!sSettingsOpen) hSettings.style.display = "none";
+}
+
+// load settings from local storage
+loadSettings();
+// update sattings whenever an input field is changed
+hsAnimationDuration.onkeyup = function() {updateSettings()};
+hsSecondChance.onclick = function() {updateSettings()};
+hsDopamineBox.onclick = function() {updateSettings()};
+
+/*----------------
+      STAGES
+----------------*/
+
+// LOAD STAGES FROM LOCAL STRAGE
+function loadStages() {
+  if (read("stages-selected") !== "") stagesSelected = read("stages-selected");
+  displayStages();
+}
+
+// DISPLAY STAGES
+function displayStages() {
+  for (let i = 0; i < 40; i++) {
+    if (stagesSelected[i] === "0") hStageButtons[i].style.backgroundColor = "#313244";
+    else hStageButtons[i].style.backgroundColor = "#11111b";
+  }
+}
+
+// STAGE SELECTION
+for (let i = 0; i < 40; i++) {
+  hStageButtons[i].onclick = function(event) {
+    if (!canSelectStages) return;
+    // shift click: toggle up to
+    if (event.shiftKey) {
+      if (stagesSelected[i] === "0") stagesSelected = "1".repeat(i + 1) + stagesSelected.substring(i + 1);
+      else stagesSelected = "0".repeat(i + 1) + stagesSelected.substring(i + 1);
+    }
+    // normal click: toggle single
+    else {
+      if (stagesSelected[i] === "0") stagesSelected = stagesSelected.substring(0, i) + "1" + stagesSelected.substring(i + 1);
+      else stagesSelected = stagesSelected.substring(0, i) + "0" + stagesSelected.substring(i + 1);
+    }
+    // write stages selected to local storage
+    write("stages-selected", stagesSelected);
+    displayStages();
+    // reintialise the test
+    initialise();
+  }
+}
+
+// load stages from local storage
+loadStages();
+
+/*----------------
+      STATS
+----------------*/
 
 // RESET STATS
 function resetStats() {
@@ -1044,14 +1180,20 @@ function displayTimer() {
                  ":" + ("00" + (time % 60)).slice(-2);
 }
 
-// DISPLAY STAGES
-function displayStages() {
-  for (let i = 0; i < 40; i++) {
-    if (stagesSelected[i] === "0") hStageButtons[i].style.backgroundColor = "#313244";
-    else hStageButtons[i].style.backgroundColor = "#11111b";
+/*----------------
+   DOPAMINE BOX
+----------------*/
+
+// LOAD DOPAMINE BOX
+function loadDopamineBox() {
+  if (currentWeek === parseInt(read("db-week"))) {
+    dbTestsCompleted = read("db-completed");
+  } else {
+    write("db-completed", "0000000");
+    dbTestsCompleted = "0000000";
   }
+  displayDopamineBox();
 }
-displayStages();
 
 // DISPLAY DOPAMINE BOX
 function displayDopamineBox() {
@@ -1063,6 +1205,26 @@ function displayDopamineBox() {
   if (dbTestsCompleted === "1111111") {
     hDBWeek.style.backgroundColor = "var(--c-green)";
   }
+}
+
+// SAVE DOPAMINE BOX
+function saveDopamineBox() {
+  write("db-week", currentWeek);
+  write("db-completed", dbTestsCompleted);
+}
+
+// load dopamine box info from local storage
+loadDopamineBox();
+
+/*----------------
+      TEST
+----------------*/
+
+// DISPLAY ALL
+function display() {
+  getWordInfo();
+  displayWords();
+  displayStats();
 }
 
 // DISPLAY WORDS
@@ -1077,6 +1239,20 @@ function displayWords() {
   hPreviousInput.value = previousInput;
 }
 
+// CHECK CORRECT OR NOT
+function check(input, translations) {
+  input = input.split(",");
+  for (let i = 0; i < input.length; i++) input[i] = clean(input[i]);
+  for (let i = 0; i < input.length; i++) {
+    let isCorrect = false;
+    for (let j = 0; j < translations.length; j++) {
+      if (input[i] === clean(translations[j])) isCorrect = true;
+    }
+    if (!isCorrect) return false;
+  }
+  return true;
+}
+
 // GET INFORMATION FOR CURRENT WORDS
 function getWordInfo() {
   // prompt, pos, full name
@@ -1085,6 +1261,163 @@ function getWordInfo() {
     currentPoss[i] = word[currentWords[i]][2];
     currentFullNames[i] = word[currentWords[i]][1];
   }
+}
+
+// GET NEW WORD INFORMATION
+function getNewWord() {
+  if (currentWordlist.length === 0) {
+    currentWordlist = [...selectedWordlist];
+  }
+  previousInput = hCurrentInput.value;
+  hCurrentInput.value = hNextInput.value;
+  hNextInput.value = "";
+  // shift
+  currentWords.splice(0, 1);
+  let random = Math.floor(Math.random() * currentWordlist.length);
+  currentWords.push(currentWordlist[random]);
+  currentWordlist.splice(random, 1);
+  display();
+}
+
+// INITIALISE WORDLIST AND WORDS
+function initialise(fillSelectedWordList = true) {
+  resetStats();
+  // fill selected word list
+  if (fillSelectedWordList) {
+    selectedWordlist = [];
+    let aStageIsSelected = false;
+    for (let i = 0; i < 40; i++) {
+      if (stagesSelected[i] === '1') { // if a stage it selected
+        aStageIsSelected = true;
+        // add all words in the stage
+        for (let j = 0; j < stage[i].length; j++) {
+          selectedWordlist.push(stage[i][j]);
+        }
+      }
+    }
+    // if no stages are selected, use buffers
+    if (!aStageIsSelected) {
+      selectedWordlist = [0];
+    }
+  }
+  currentWords = [0, 0, 0, 0];
+  // add words to the results list
+  wordResultsList = [];
+  for (let wordId of selectedWordlist) {
+    wordResultsList.push([wordId, 0, 0]);
+  }
+  // fill up the current word list
+  currentWordlist = [...selectedWordlist];
+  // get 3 starting words
+  for (let i = 0; i < 3; i++) {
+    getNewWord();
+  }
+  // display
+  display();
+  // allow inputs
+  wait = false;
+  hCurrentInput.select();
+}
+
+// START TEST WITH CURRENT OPTIONS
+function startTest() {
+  let testOptionsInput = hTestOptions.value.split(" ");
+  // if not a valid test option
+  if (!testOptionsTypes.includes(testOptionsInput[0]) || Number.isNaN(parseInt(testOptionsInput[1]))) {
+    hTestOptions.classList.add("shake-animation");
+    setTimeout(function() {hTestOptions.classList.remove("shake-animation")}, 250);
+    return;
+  }
+  // if no stages are selected
+  if (stagesSelected === "0000000000000000000000000000000000000000") {
+    document.querySelector(".select-stages-prompt").classList.add("shake-animation");
+    setTimeout(function() {document.querySelector(".select-stages-prompt").classList.remove("shake-animation")}, 250);
+    return;
+  }
+
+  // change the screen
+  changeScreen(1);
+  // get settings
+  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
+  testOptionsValue = parseInt(testOptionsInput[1]);
+  // if timed test, calculate the time and start timer
+  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
+  if (testOptionsType < 2) {
+    hTimer.style.visibility = "hidden";
+  }
+  else {
+    hTimer.style.visibility = "visible";
+    time = testOptionsValue;
+    displayTimer();
+    timerInterval = setInterval(function() {
+      time -= 1;
+      displayTimer();
+    }, 1000);
+    setTimeout(function() {
+      endTest();
+    }, 1000 * testOptionsValue);
+  }
+  // freeze stage lists
+  canSelectStages = false;
+  // start the test
+  initialise();
+}
+
+// FREE MODE
+function free() {
+  // change the screen
+  changeScreen(1);
+  // remove test options
+  testOptionsType = -1;
+  testOptionsValue = 0;
+  // hide the timer
+  hTimer.style.visibility = "hidden";
+  // start the test!
+  initialise();
+}
+
+// TRY INCORRECT WORDS AGAIN
+function tryIncorrectWordsAgain() {
+  let testOptionsInput = hTestOptions.value.split(" ");
+  // make list
+  selectedWordlist = [];
+  for (let result of wordResultsList) {
+    if (result[1] - result[2] > 0) {
+      selectedWordlist.push(result[0]);
+    }
+  }
+  // if no wrong words (shake animation)
+  if (selectedWordlist.length === 0) {
+    hTiwaButton.classList.add("shake-animation");
+    setTimeout(function() {hTiwaButton.classList.remove("shake-animation")}, 250);
+    return;
+  }
+  // change the screen
+  changeScreen(1);
+  // get settings
+  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
+  testOptionsValue = parseInt(testOptionsInput[1]);
+  // if timed test, calculate the time and start timer
+  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
+  if (testOptionsType < 2) {
+    hTimer.style.visibility = "hidden";
+  }
+  else {
+    hTimer.style.visibility = "visible";
+    time = testOptionsValue;
+    displayTimer();
+    timerInterval = setInterval(function() {
+      time -= 1;
+      displayTimer();
+    }, 1000);
+    setTimeout(function() {
+      endTest();
+    }, 1000 * testOptionsValue);
+  }
+  // freeze stage lists
+  canSelectStages = false;
+  // start the test
+  initialise(false);
 }
 
 // END THE TEST AND SHOW RESULTS
@@ -1155,90 +1488,6 @@ function checkEndTest() {
       endTest();
     }
   }
-}
-
-// DISPLAY ALL
-function display() {
-  getWordInfo();
-  displayWords();
-  displayStats();
-}
-
-// REMOVE CASE AND STRIP STRING
-function clean(x) {
-  x = x.toLowerCase();
-  x = x.trim();
-  return x;
-}
-
-// CHECK CORRECT OR NOT
-function check(input, translations) {
-  input = input.split(",");
-  for (let i = 0; i < input.length; i++) input[i] = clean(input[i]);
-  for (let i = 0; i < input.length; i++) {
-    let isCorrect = false;
-    for (let j = 0; j < translations.length; j++) {
-      if (input[i] === clean(translations[j])) isCorrect = true;
-    }
-    if (!isCorrect) return false;
-  }
-  return true;
-}
-
-// INITIALISE WORDLIST AND WORDS
-function initialise(fillSelectedWordList = true) {
-  resetStats();
-  // fill selected word list
-  if (fillSelectedWordList) {
-    selectedWordlist = [];
-    let aStageIsSelected = false;
-    for (let i = 0; i < 40; i++) {
-      if (stagesSelected[i] === '1') { // if a stage it selected
-        aStageIsSelected = true;
-        // add all words in the stage
-        for (let j = 0; j < stage[i].length; j++) {
-          selectedWordlist.push(stage[i][j]);
-        }
-      }
-    }
-    // if no stages are selected, use buffers
-    if (!aStageIsSelected) {
-      selectedWordlist = [0];
-    }
-  }
-  currentWords = [0, 0, 0, 0];
-  // add words to the results list
-  wordResultsList = [];
-  for (let wordId of selectedWordlist) {
-    wordResultsList.push([wordId, 0, 0]);
-  }
-  // fill up the current word list
-  currentWordlist = [...selectedWordlist];
-  // get 3 starting words
-  for (let i = 0; i < 3; i++) {
-    getNewWord();
-  }
-  // display
-  display();
-  // allow inputs
-  wait = false;
-  hCurrentInput.select();
-}
-
-// GET NEW WORD INFORMATION
-function getNewWord() {
-  if (currentWordlist.length === 0) {
-    currentWordlist = [...selectedWordlist];
-  }
-  previousInput = hCurrentInput.value;
-  hCurrentInput.value = hNextInput.value;
-  hNextInput.value = "";
-  // shift
-  currentWords.splice(0, 1);
-  let random = Math.floor(Math.random() * currentWordlist.length);
-  currentWords.push(currentWordlist[random]);
-  currentWordlist.splice(random, 1);
-  display();
 }
 
 // RUN
@@ -1340,26 +1589,6 @@ function run() {
   setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 5);
 }
 
-// STAGE SELECTION
-for (let i = 0; i < 40; i++) {
-  hStageButtons[i].onclick = function(event) {
-    if (!canSelectStages) return;
-    // shift click: toggle up to
-    if (event.shiftKey) {
-      if (stagesSelected[i] === "0") stagesSelected = "1".repeat(i + 1) + stagesSelected.substring(i + 1);
-      else stagesSelected = "0".repeat(i + 1) + stagesSelected.substring(i + 1);
-    }
-    // normal click: toggle single
-    else {
-      if (stagesSelected[i] === "0") stagesSelected = stagesSelected.substring(0, i) + "1" + stagesSelected.substring(i + 1);
-      else stagesSelected = stagesSelected.substring(0, i) + "0" + stagesSelected.substring(i + 1);
-    }
-    displayStages();
-    write("stages-selected", stagesSelected);
-    initialise();
-  }
-}
-
 // Shuffle when the enter key is pressed
 document.body.addEventListener('keydown', function (event) {
   const key = event.key;
@@ -1368,201 +1597,6 @@ document.body.addEventListener('keydown', function (event) {
       if (!wait) run();
   }
 });
-
-// LOAD DOPAMINE BOX
-function loadDopamineBox() {
-  if (currentWeek === parseInt(read("db-week"))) {
-    dbTestsCompleted = read("db-completed");
-  } else {
-    write("db-completed", "0000000");
-    dbTestsCompleted = "0000000";
-  }
-  displayDopamineBox();
-}
-loadDopamineBox();
-
-// SAVE DOPAMINE BOX
-function saveDopamineBox() {
-  write("db-week", currentWeek);
-  write("db-completed", dbTestsCompleted);
-}
-
-/*----------------
-    SETTINGS
-----------------*/
-
-function loadSettings() {
-  // read settings from local storage
-  if (read("animation-duration") !== "") sAnimationDuration = parseFloat(read("animation-duration"));
-  if (read("second-chance") !== "") sSecondChance = read("second-chance") === "true";
-  if (read("dopamine-box") !== "") sDopamineBox = read("dopamine-box") === "true";
-  displaySettings();
-  updateSettings();
-}
-
-// DISPLAY SETTINGS VALUES 
-function displaySettings() {
-  // display settings in settings panel
-  hsAnimationDuration.value = sAnimationDuration.toString();
-  hsSecondChance.checked = sSecondChance;
-  hsDopamineBox.checked = sDopamineBox;
-}
-
-// UPDATE THE SETTINGS (SAVE)
-function updateSettings() {
-  // animation duration
-  sAnimationDuration = parseFloat(hsAnimationDuration.value);
-  for (let wordElement of hWords) wordElement.style.transition = "all " + (sAnimationDuration*2/3).toString() + "s, margin-bottom " + sAnimationDuration.toString() + "s, visibility 0s";
-  // second chance
-  sSecondChance = hsSecondChance.checked;
-  if (sSecondChance) chances = 1;
-  else chances = 0;
-  // dopamine box
-  sDopamineBox = hsDopamineBox.checked;
-  if (sDopamineBox) hDopamineBox.style.display = "block";
-  else hDopamineBox.style.display = "none";
-  // write settings to local storage
-  write("animation-duration", sAnimationDuration.toString());
-  write("second-chance", sSecondChance.toString());
-  write("dopamine-box", sDopamineBox.toString());
-}
-
-hSettingsButton.onclick = function() {
-  // toggle the settings open
-  sSettingsOpen = !sSettingsOpen;
-  // open or close the settings
-  if (sSettingsOpen) hSettings.style.display = "block";
-  if (!sSettingsOpen) hSettings.style.display = "none";
-}
-
-hsAnimationDuration.onkeyup = function() {updateSettings()};
-hsSecondChance.onclick = function() {updateSettings()};
-hsDopamineBox.onclick = function() {updateSettings()};
-loadSettings();
-
-/*----------------
-    SCREENS
-----------------*/
-
-// CHANGE SCREEN
-function changeScreen(screenNum) {
-  // home screen
-  for (let element of hHomeScreen) {
-    if (screenNum === 0) element.style.visibility = 'visible';
-    else element.style.visibility = 'hidden';
-  }
-  // test screen
-  for (let element of hTestScreen) {
-    if (screenNum === 1) element.style.visibility = 'visible';
-    else element.style.visibility = 'hidden';
-  }
-  // end screen
-  for (let element of hEndScreen) {
-    if (screenNum === 2) element.style.visibility = 'visible';
-    else element.style.visibility = 'hidden';
-  }
-}
-
-// START TEST WITH CURRENT OPTIONS
-function startTest() {
-  let testOptionsInput = hTestOptions.value.split(" ");
-  // if not a valid test option
-  if (!testOptionsTypes.includes(testOptionsInput[0]) || Number.isNaN(parseInt(testOptionsInput[1]))) {
-    hTestOptions.classList.add("shake-animation");
-    setTimeout(function() {hTestOptions.classList.remove("shake-animation")}, 250);
-    return;
-  }
-  // if no stages are selected
-  if (stagesSelected === "0000000000000000000000000000000000000000") {
-    document.querySelector(".select-stages-prompt").classList.add("shake-animation");
-    setTimeout(function() {document.querySelector(".select-stages-prompt").classList.remove("shake-animation")}, 250);
-    return;
-  }
-
-  // change the screen
-  changeScreen(1);
-  // get settings
-  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
-  testOptionsValue = parseInt(testOptionsInput[1]);
-  // if timed test, calculate the time and start timer
-  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
-  if (testOptionsType < 2) {
-    hTimer.style.visibility = "hidden";
-  }
-  else {
-    hTimer.style.visibility = "visible";
-    time = testOptionsValue;
-    displayTimer();
-    timerInterval = setInterval(function() {
-      time -= 1;
-      displayTimer();
-    }, 1000);
-    setTimeout(function() {
-      endTest();
-    }, 1000 * testOptionsValue);
-  }
-  // freeze stage lists
-  canSelectStages = false;
-  // start the test
-  initialise();
-}
-
-// TRY INCORRECT WORDS AGAIN
-function tryIncorrectWordsAgain() {
-  let testOptionsInput = hTestOptions.value.split(" ");
-  // make list
-  selectedWordlist = [];
-  for (let result of wordResultsList) {
-    if (result[1] - result[2] > 0) {
-      selectedWordlist.push(result[0]);
-    }
-  }
-  // if no wrong words (shake animation)
-  if (selectedWordlist.length === 0) {
-    hTiwaButton.classList.add("shake-animation");
-    setTimeout(function() {hTiwaButton.classList.remove("shake-animation")}, 250);
-    return;
-  }
-  // change the screen
-  changeScreen(1);
-  // get settings
-  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
-  testOptionsValue = parseInt(testOptionsInput[1]);
-  // if timed test, calculate the time and start timer
-  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
-  if (testOptionsType < 2) {
-    hTimer.style.visibility = "hidden";
-  }
-  else {
-    hTimer.style.visibility = "visible";
-    time = testOptionsValue;
-    displayTimer();
-    timerInterval = setInterval(function() {
-      time -= 1;
-      displayTimer();
-    }, 1000);
-    setTimeout(function() {
-      endTest();
-    }, 1000 * testOptionsValue);
-  }
-  // freeze stage lists
-  canSelectStages = false;
-  // start the test
-  initialise(false);
-}
-
-// FREE MODE
-function free() {
-  // change the screen
-  changeScreen(1);
-  // remove test options
-  testOptionsType = -1;
-  testOptionsValue = 0;
-  // hide the timer
-  hTimer.style.visibility = "hidden";
-  // start the test!
-  initialise();
-}
 
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
