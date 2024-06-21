@@ -1065,7 +1065,6 @@ function getWordInfo() {
 
 // END THE TEST AND SHOW RESULTS
 function endTest() {
-  console.table(wordResultsList);
   // change the screen
   changeScreen(2);
   // show overall results with result bar and results
@@ -1157,22 +1156,25 @@ function check(input, translations) {
 }
 
 // INITIALISE WORDLIST AND WORDS
-function initialise() {
+function initialise(fillSelectedWordList = true) {
   resetStats();
-  selectedWordlist = [];
-  let aStageIsSelected = false;
-  for (let i = 0; i < 40; i++) {
-    if (stagesSelected[i] === '1') { // if a stage it selected
-      aStageIsSelected = true;
-      // add all words in the stage
-      for (let j = 0; j < stage[i].length; j++) {
-        selectedWordlist.push(stage[i][j]);
+  // fill selected word list
+  if (fillSelectedWordList) {
+    selectedWordlist = [];
+    let aStageIsSelected = false;
+    for (let i = 0; i < 40; i++) {
+      if (stagesSelected[i] === '1') { // if a stage it selected
+        aStageIsSelected = true;
+        // add all words in the stage
+        for (let j = 0; j < stage[i].length; j++) {
+          selectedWordlist.push(stage[i][j]);
+        }
       }
     }
-  }
-  // if no stages are selected, use buffers
-  if (!aStageIsSelected) {
-    selectedWordlist = [0];
+    // if no stages are selected, use buffers
+    if (!aStageIsSelected) {
+      selectedWordlist = [0];
+    }
   }
   currentWords = [0, 0, 0, 0];
   // add words to the results list
@@ -1447,6 +1449,45 @@ function startTest() {
   initialise();
 }
 
+function tryIncorrectWordsAgain() {
+  let testOptionsInput = hTestOptions.value.split(" ");
+  // make list
+  selectedWordlist = [];
+
+  // if no wrong words (shake animation)
+  if (selectedWordlist.length === 0) {
+    hTiwaButton.classList.add("shake-animation");
+    setTimeout(function() {hTiwaButton.classList.remove("shake-animation")}, 250);
+    return;
+  }
+  // change the screen
+  changeScreen(1);
+  // get settings
+  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
+  testOptionsValue = parseInt(testOptionsInput[1]);
+  // if timed test, calculate the time and start timer
+  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
+  if (testOptionsType < 2) {
+    hTimer.style.visibility = "hidden";
+  }
+  else {
+    hTimer.style.visibility = "visible";
+    time = testOptionsValue;
+    displayTimer();
+    timerInterval = setInterval(function() {
+      time -= 1;
+      displayTimer();
+    }, 1000);
+    setTimeout(function() {
+      endTest();
+    }, 1000 * testOptionsValue);
+  }
+  // freeze stage lists
+  canSelectStages = false;
+  // start the test
+  initialise(false);
+}
+
 function free() {
   // change the screen
   changeScreen(1);
@@ -1463,6 +1504,7 @@ hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 hHomeButton.onclick = function() {changeScreen(0)};
 hAgainButton.onclick = function() {startTest()};
+hTiwaButton.onclick = function() {tryIncorrectWordsAgain()};
 hEndTestButton.onclick = function() {endTest()};
 
 changeScreen(0);
