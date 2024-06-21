@@ -303,7 +303,7 @@ body {
 
 .dopamine-box {
   width: 500px;
-  height: 80px;
+  height: 90px;
 }
 
 .db-week {
@@ -315,7 +315,7 @@ body {
 }
 
 .db-day-container {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   justify-content: space-between;
 
@@ -545,8 +545,11 @@ input {
 }
 
 .word-result-translation {
+  text-wrap: nowrap;
   margin-right: 7px;
   color: var(--c-subtext);
+  overflow-x: scroll;
+  max-width: 400px;
 }
 
 .word-result-stats {
