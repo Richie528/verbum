@@ -917,6 +917,7 @@ let stCorrectPercentage = 0;
 // word list
 let selectedWordlist = [0];
 let currentWordlist = [0];
+let wordResultsList = [];
 // current words
 let currentWords = [0, 0, 0, 0];
 let currentPrompts = ["", "", "", ""];
@@ -1049,7 +1050,9 @@ function getWordInfo() {
 
 // END THE TEST
 function endTest() {
-  changeScreen(0);
+  console.table(wordResultsList);
+
+  changeScreen(2);
   canSelectStages = true;
   clearInterval(timerInterval);
   time = 0;
@@ -1116,6 +1119,11 @@ function initialise() {
     selectedWordlist = [0];
   }
   currentWords = [0, 0, 0, 0];
+  // add words to the results list
+  for (let wordId of selectedWordlist) {
+    wordResultsList.push([wordId], 0, 0);
+  }
+  // fill up the current word list
   currentWordlist = [...selectedWordlist];
   // get 3 starting words
   for (let i = 0; i < 3; i++) {
@@ -1169,6 +1177,13 @@ function run() {
       stWordsTested += 1;
       stWordsCorrect += 1;
       displayStats();
+      // update word results
+      for (let i = 0; i < wordResultsList.length; i++) {
+        if (wordResultsList[i][0] === currentWords[0]) {
+          wordResultsList[i][1] += 1;
+          wordResultsList[i][2] += 1;
+        }
+      }
       // reselect current input
       hNextInput.readOnly = true;
       hCurrentInput.focus();
@@ -1216,6 +1231,12 @@ function run() {
         // update stats
         stWordsTested += 1;
         displayStats();
+        // update word results
+        for (let i = 0; i < wordResultsList.length; i++) {
+          if (wordResultsList[i][0] === currentWords[0]) {
+            wordResultsList[i][1] += 1;
+          }
+        }
         // reselect current input
         hNextInput.readOnly = true;
         hCurrentInput.select();
@@ -1266,6 +1287,7 @@ function loadSettings() {
   // read settings from local storage
   if (read("animation-duration") !== "") sAnimationDuration = parseFloat(read("animation-duration"));
   if (read("second-chance") !== "") sSecondChance = read("second-chance") === "true";
+  updateSettings();
   displaySettings();
 }
 loadSettings();
@@ -1345,20 +1367,23 @@ function startTest() {
   // get settings
   testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
   testOptionsValue = parseInt(testOptionsInput[1]);
-  // hide the timer if not a timed test
-  if (testOptionsType < 2) hTimer.style.visibility = "hidden";
-  else hTimer.style.visibility = "visible";
   // if timed test, calculate the time and start timer
   if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
-  time = testOptionsValue;
-  displayTimer();
-  timerInterval = setInterval(function() {
-    time -= 1;
+  if (testOptionsType < 2) {
+    hTimer.style.visibility = "hidden";
+  }
+  else {
+    hTimer.style.visibility = "visible";
+    time = testOptionsValue;
     displayTimer();
-  }, 1000);
-  setTimeout(function() {
-    endTest();
-  }, 1000 * testOptionsValue);
+    timerInterval = setInterval(function() {
+      time -= 1;
+      displayTimer();
+    }, 1000);
+    setTimeout(function() {
+      endTest();
+    }, 1000 * testOptionsValue);
+  }
   // freeze stage lists
   canSelectStages = false;
   // start the test
@@ -1380,4 +1405,4 @@ function free() {
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 
-changeScreen(2);
+changeScreen(0);
