@@ -1422,8 +1422,8 @@ function tryIncorrectWordsAgain() {
 
 // END THE TEST AND SHOW RESULTS
 function endTest() {
-  // if 50% or above, complete dopamine box for this day
-  if (stWordsCorrect / stWordsTested >= 0.5) {
+  // if 50% or above and >= 10 words correct, complete dopamine box for this day
+  if (stWordsCorrect / stWordsTested >= 0.5 && stWordsCorrect >= 10) {
     dbTestsCompleted = dbTestsCompleted.substring(0, currentDay) + "1" + dbTestsCompleted.substring(currentDay + 1);
     saveDopamineBox();
     displayDopamineBox();
