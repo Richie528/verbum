@@ -1121,7 +1121,7 @@ function initialise() {
   currentWords = [0, 0, 0, 0];
   // add words to the results list
   for (let wordId of selectedWordlist) {
-    wordResultsList.push([wordId], 0, 0);
+    wordResultsList.push([wordId, 0, 0]);
   }
   // fill up the current word list
   currentWordlist = [...selectedWordlist];
@@ -1244,7 +1244,7 @@ function run() {
       }, Math.floor(sAnimationDuration * 1000));
     }
   }
-  setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 100);
+  setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 5);
 }
 
 // STAGE SELECTION
@@ -1287,10 +1287,9 @@ function loadSettings() {
   // read settings from local storage
   if (read("animation-duration") !== "") sAnimationDuration = parseFloat(read("animation-duration"));
   if (read("second-chance") !== "") sSecondChance = read("second-chance") === "true";
-  updateSettings();
   displaySettings();
+  updateSettings();
 }
-loadSettings();
 
 // DISPLAY SETTINGS VALUES 
 function displaySettings() {
@@ -1323,7 +1322,7 @@ hSettingsButton.onclick = function() {
 
 hsAnimationDuration.onkeyup = function() {updateSettings()};
 hsSecondChance.onclick = function() {updateSettings()};
-displaySettings();
+loadSettings();
 
 /*----------------
     SCREENS
