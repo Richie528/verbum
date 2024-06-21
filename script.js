@@ -914,8 +914,6 @@ let stCorrectPercentage = 0;
 // dopamine box
 let currentDay = (new Date(Date.now()).getDay() + 6) % 7;
 let currentWeek = Math.floor(Date.now() / 86400000) - currentDay;
-console.log(currentDay);
-console.log(currentWeek);
 let dbTestsCompleted = "0000000";
 // test options
 let testOptionsTypes = ["cycle", "word", "s", "m"];
@@ -924,7 +922,6 @@ let testOptionsValue = 0;
 // word list
 let selectedWordlist = [0];
 let currentWordlist = [0];
-let wordResultsList = [];
 // current words
 let currentWords = [0, 0, 0, 0];
 let currentPrompts = ["", "", "", ""];
@@ -934,6 +931,12 @@ let previousInput = "";
 // animation states
 let normalWordState = ["word-small", "word-big", "word-small", "word-gone"];
 let animatedWordState = ["word-gone", "word-small", "word-big", "word-small"];
+// test results
+let wordResultsList = [];
+let categoryTypes = ["⎁ WORD", "⌸ STAGE"];
+let sortTypes = ["Ⓐ ALPHABETICAL", "🠫 INCORRECT", "🠩 CORRECT"];
+let categoryType = 0;
+let sortType = 0;
 // states
 let wait = true;
 let chances = 1;
@@ -986,6 +989,9 @@ let hResultBar = document.querySelector(".result-bar");
 let hResultBarInner = document.querySelector(".result-bar-inner");
 let hWordResults = document.querySelector(".word-results");
 let hWordResultEx = document.querySelector(".word-result-example");
+// results options
+let hCategoryType = document.getElementById("category");
+let hSortType = document.getElementById("sort");
 
 /*----------------
      UTILITY
@@ -1565,8 +1571,22 @@ function tryIncorrectWordsAgain() {
   initialise(false);
 }
 
+// LOAD RESULT OPTIONS
+function loadResultOptions() {
+  if (read("category") === "") write("category", categoryType);
+  if (read("sort") === "") write("sort", sortType);
+  categoryType = parseInt(read("category"));
+  sortType = parseInt(read("sort"));
+}
+loadResultOptions();
+
 // DISPLAY WORD RESULTS
-function displayWordResults(categoryType, sortType) {
+function displayWordResults() {
+  hCategoryType.textContent = categoryTypes[categoryType];
+  hSortType.textContent = sortTypes[sortType];
+  write("category", categoryType);
+  write("sort", sortType);
+
   let resultsList = [];
   if (categoryType === 0) resultsList = [...wordResultsList];
   if (categoryType === 1) {
@@ -1581,6 +1601,7 @@ function displayWordResults(categoryType, sortType) {
       resultsList.push([i, numTested, numCorrect]);
     }
   }
+
   // show individual word results
   if (sortType === 0) resultsList.sort(sortAlphabetical);
   if (sortType === 1) resultsList.sort(sortWordsWrong);
@@ -1622,6 +1643,16 @@ function displayWordResults(categoryType, sortType) {
   }
 }
 
+hCategoryType.onclick = function() {
+  categoryType = (categoryType + 1) % 2;
+  displayWordResults();
+}
+
+hSortType.onclick = function() {
+  sortType = (sortType + 1) % 3;
+  displayWordResults();
+}
+
 // END THE TEST AND SHOW RESULTS
 function endTest() {
   // if 50% or above and >= 10 words correct, complete dopamine box for this day
@@ -1636,7 +1667,7 @@ function endTest() {
   hResults.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
   hResultBarInner.style.width = Math.floor(stWordsCorrect / stWordsTested * 500).toString() + "px";
   // show word results
-  displayWordResults(1, 1);
+  displayWordResults();
   // allow changing stages
   canSelectStages = true;
   // reset timer

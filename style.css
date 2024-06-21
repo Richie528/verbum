@@ -523,11 +523,31 @@ input {
   background-color: var(--c-green);
 }
 
-.word-results {
+.choose {
   margin-top: 10px;
+  margin-right: 5px;
+  height: 30px;
+  width: 150px;
+
+  border-radius: 5px;
+  border: none;
+  outline: none;
+
+  background-color: #191927;
+  color: var(--c-subtext);
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.choose:hover {
+  cursor: pointer;
+}
+
+.word-results {
+  margin-top: 8px;
   padding: 20px;
   width: 600px;
-  height: 350px;
+  height: 310px;
 
   background-color: #191927;
   border-radius: 5px;
