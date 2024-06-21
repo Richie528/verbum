@@ -534,7 +534,7 @@ input {
   top: 0px;
   left: 0px;
   height: 5px;
-  width: 400px;
+  width: 10px;
   border-radius: 5px;
 
   background-color: var(--c-green);

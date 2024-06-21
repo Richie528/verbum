@@ -993,6 +993,12 @@ function read(key) {
   return "";
 }
 
+// SORT BY WORDS WRONG
+function sortComparator(a, b) {
+  if (a[1] - a[2] === b[1] - b[2]) return (a[0] < b[0]) ? -1 : 1;
+  else return (a[1] - a[2] > b[1] - b[2]) ? -1 : 1;
+}
+
 // RESET STATS
 function resetStats() {
   stCycleCount = 0;
@@ -1019,11 +1025,13 @@ function displayStats() {
   hScoreCount.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
 }
 
+// DISPLAY TIMER
 function displayTimer() {
   hTimer.textContent = ("00" + Math.floor(time / 60)).slice(-2) + 
                  ":" + ("00" + (time % 60)).slice(-2);
 }
 
+// DISPLAY STAGES
 function displayStages() {
   for (let i = 0; i < 40; i++) {
     if (stagesSelected[i] === "0") hStageButtons[i].style.backgroundColor = "#313244";
@@ -1061,9 +1069,39 @@ function endTest() {
   changeScreen(2);
   // show overall results with result bar and results
   hResults.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
-  hResultBarInner.style.width = (stWordsCorrect / stWordsTested * 500).toString() + "px";
+  hResultBarInner.style.width = Math.floor(stWordsCorrect / stWordsTested * 500).toString() + "px";
   // show individual word results
-
+  wordResultsList.sort(sortComparator);
+  hWordResults.innerHTML = ``;
+  for (let result of wordResultsList) {
+    // don't show if the word wasn't tested
+    if (result[1] === 0) continue;
+    // create an element
+    let wordResultElement = document.createElement("div");
+    wordResultElement.classList.add("word-result");
+    wordResultElement.innerHTML = `
+      <div style="display:flex">
+        <div class="word-result-word">porto</div>
+        <div class="word-result-translation">carry, bring</div>
+        <div class="word-result-stats">3/3</div>
+      </div>
+      <div class="word-result-bar">
+        <div class="word-result-bar-inner"></div>
+      </div>
+    `;
+    // display the stats
+    wordResultElement.querySelector(".word-result-word").textContent = word[result[0]][0];
+    let translationsText = "";
+    for (let j = 0; j < word[result[0]][3].length; j++) {
+      translationsText += word[result[0]][3][j];
+      if (j != word[result[0]][3].length - 1) translationsText += ", ";
+    }
+    wordResultElement.querySelector(".word-result-translation").textContent = translationsText;
+    wordResultElement.querySelector(".word-result-stats").textContent = result[2].toString() + "/" + result[1].toString();
+    wordResultElement.querySelector(".word-result-bar-inner").style.width = Math.floor(result[2] / result[1] * 580).toString() + "px";
+    // append the element to the word results
+    hWordResults.appendChild(wordResultElement);
+  }
   // allow changing stages
   canSelectStages = true;
   // reset timer
@@ -1137,6 +1175,7 @@ function initialise() {
   }
   currentWords = [0, 0, 0, 0];
   // add words to the results list
+  wordResultsList = [];
   for (let wordId of selectedWordlist) {
     wordResultsList.push([wordId, 0, 0]);
   }
@@ -1150,6 +1189,7 @@ function initialise() {
   display();
   // allow inputs
   wait = false;
+  hCurrentInput.select();
 }
 
 // GET NEW WORD INFORMATION
@@ -1263,6 +1303,7 @@ function run() {
       }, Math.floor(sAnimationDuration * 1000));
     }
   }
+  // check if the test should end
   setTimeout(function() {checkEndTest()}, Math.floor(sAnimationDuration * 1000) + 5);
 }
 
