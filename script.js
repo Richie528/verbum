@@ -949,6 +949,7 @@ let hFreeButton = document.querySelector(".free-button");
 let hHomeButton = document.querySelector(".home-button");
 let hAgainButton = document.querySelector(".again-button");
 let hTiwaButton = document.querySelector(".tiwa-button");
+let hEndTestButton = document.querySelector(".end-test-button");
 // stage buttons
 let hStageButtons = document.querySelectorAll(".stage-button");
 // stats
@@ -1462,5 +1463,6 @@ hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 hHomeButton.onclick = function() {changeScreen(0)};
 hAgainButton.onclick = function() {startTest()};
+hEndTestButton.onclick = function() {endTest()};
 
 changeScreen(0);

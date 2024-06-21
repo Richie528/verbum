@@ -599,6 +599,28 @@ input {
   cursor: pointer;
 }
 
+.end-test-button {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+
+  background-color: var(--c-highlight);
+  color: var(--c-mantle);
+  user-select: none;
+}
+
+.end-test-button:hover {
+  cursor: pointer;
+}
+
 .shake-animation {
   animation: shake 0.25s;
 }
