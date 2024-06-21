@@ -899,6 +899,12 @@ let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
 let sSecondChance = true;
 let sDopamineBox = true;
+// dopamine box
+let currentDay = (new Date(Date.now()).getDay() + 6) % 7;
+let currentWeek = Math.floor(Date.now() / 86400000) - currentDay;
+console.log(currentDay);
+console.log(currentWeek);
+let dbTestsCompleted = "0000000";
 // test options
 let testOptionsTypes = ["cycle", "word", "s", "m"];
 let testOptionsType = 0;
@@ -1047,6 +1053,18 @@ function displayStages() {
 }
 displayStages();
 
+// DISPLAY DOPAMINE BOX
+function displayDopamineBox() {
+  for (let i = 0; i < 7; i++) {
+    if (dbTestsCompleted[i] === "1") {
+      hDBDays[i].style.backgroundColor = "var(--c-green)";
+    }
+  }
+  if (dbTestsCompleted === "1111111") {
+    hDBWeek.style.backgroundColor = "var(--c-green)";
+  }
+}
+
 // DISPLAY WORDS
 function displayWords() {
   // prompt, pos, full name
@@ -1071,6 +1089,12 @@ function getWordInfo() {
 
 // END THE TEST AND SHOW RESULTS
 function endTest() {
+  // if 50% or above, complete dopamine box for this day
+  if (stWordsCorrect / stWordsTested >= 0.5) {
+    dbTestsCompleted = dbTestsCompleted.substring(0, currentDay) + "1" + dbTestsCompleted.substring(currentDay + 1);
+    saveDopamineBox();
+    displayDopamineBox();
+  }  
   // change the screen
   changeScreen(2);
   // show overall results with result bar and results
@@ -1344,6 +1368,24 @@ document.body.addEventListener('keydown', function (event) {
       if (!wait) run();
   }
 });
+
+// LOAD DOPAMINE BOX
+function loadDopamineBox() {
+  if (currentWeek === parseInt(read("db-week"))) {
+    dbTestsCompleted = read("db-completed");
+  } else {
+    write("db-completed", "0000000");
+    dbTestsCompleted = "0000000";
+  }
+  displayDopamineBox();
+}
+loadDopamineBox();
+
+// SAVE DOPAMINE BOX
+function saveDopamineBox() {
+  write("db-week", currentWeek);
+  write("db-completed", dbTestsCompleted);
+}
 
 /*----------------
     SETTINGS
