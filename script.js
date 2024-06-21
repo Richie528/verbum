@@ -898,6 +898,7 @@ let stage = [
 let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
 let sSecondChance = true;
+let sDopamineBox = true;
 // test options
 let testOptionsTypes = ["cycle", "word", "s", "m"];
 let testOptionsType = 0;
@@ -967,6 +968,11 @@ let hSettingsButton = document.querySelector(".settings-icon");
 let hSettings = document.querySelector(".settings");
 let hsAnimationDuration = document.getElementById("animation-duration");
 let hsSecondChance = document.getElementById("second-chance");
+let hsDopamineBox = document.getElementById("dopamine-box");
+// dopamine box
+let hDopamineBox = document.querySelector(".dopamine-box");
+let hDBWeek = document.querySelector(".db-week");
+let hDBDays = document.querySelectorAll(".db-day");
 // end screen
 let hResults = document.querySelector(".results");
 let hResultBar = document.querySelector(".result-bar");
@@ -1347,6 +1353,7 @@ function loadSettings() {
   // read settings from local storage
   if (read("animation-duration") !== "") sAnimationDuration = parseFloat(read("animation-duration"));
   if (read("second-chance") !== "") sSecondChance = read("second-chance") === "true";
+  if (read("dopamine-box") !== "") sDopamineBox = read("dopamine-box") === "true";
   displaySettings();
   updateSettings();
 }
@@ -1356,6 +1363,7 @@ function displaySettings() {
   // display settings in settings panel
   hsAnimationDuration.value = sAnimationDuration.toString();
   hsSecondChance.checked = sSecondChance;
+  hsDopamineBox.checked = sDopamineBox;
 }
 
 // UPDATE THE SETTINGS (SAVE)
@@ -1367,9 +1375,14 @@ function updateSettings() {
   sSecondChance = hsSecondChance.checked;
   if (sSecondChance) chances = 1;
   else chances = 0;
+  // dopamine box
+  sDopamineBox = hsDopamineBox.checked;
+  if (sDopamineBox) hDopamineBox.style.display = "block";
+  else hDopamineBox.style.display = "none";
   // write settings to local storage
   write("animation-duration", sAnimationDuration.toString());
   write("second-chance", sSecondChance.toString());
+  write("dopamine-box", sDopamineBox.toString());
 }
 
 hSettingsButton.onclick = function() {
@@ -1382,12 +1395,14 @@ hSettingsButton.onclick = function() {
 
 hsAnimationDuration.onkeyup = function() {updateSettings()};
 hsSecondChance.onclick = function() {updateSettings()};
+hsDopamineBox.onclick = function() {updateSettings()};
 loadSettings();
 
 /*----------------
     SCREENS
 ----------------*/
 
+// CHANGE SCREEN
 function changeScreen(screenNum) {
   // home screen
   for (let element of hHomeScreen) {
@@ -1406,6 +1421,7 @@ function changeScreen(screenNum) {
   }
 }
 
+// START TEST WITH CURRENT OPTIONS
 function startTest() {
   let testOptionsInput = hTestOptions.value.split(" ");
   // if not a valid test option
@@ -1449,11 +1465,16 @@ function startTest() {
   initialise();
 }
 
+// TRY INCORRECT WORDS AGAIN
 function tryIncorrectWordsAgain() {
   let testOptionsInput = hTestOptions.value.split(" ");
   // make list
   selectedWordlist = [];
-
+  for (let result of wordResultsList) {
+    if (result[1] - result[2] > 0) {
+      selectedWordlist.push(result[0]);
+    }
+  }
   // if no wrong words (shake animation)
   if (selectedWordlist.length === 0) {
     hTiwaButton.classList.add("shake-animation");
@@ -1488,6 +1509,7 @@ function tryIncorrectWordsAgain() {
   initialise(false);
 }
 
+// FREE MODE
 function free() {
   // change the screen
   changeScreen(1);
