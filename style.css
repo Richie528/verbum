@@ -462,9 +462,15 @@ input {
   height: 540px; width: 775px;
 }
 
+.results {
+  margin-top: 5px;
+  font-size: 20px;
+  color: var(--c-subtext);
+}
+
 .result-bar {
   position: relative;
-  margin-top: 10px;
+  margin-top: 5px;
   width: 500px;
   height: 20px;
   border-radius: 5px;
@@ -477,7 +483,7 @@ input {
   top: 0px;
   left: 0px;
   height: 20px;
-  width: 400px;
+  width: 0px;
   border-radius: 5px;
 
   background-color: var(--c-green);

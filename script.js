@@ -928,7 +928,7 @@ let previousInput = "";
 let normalWordState = ["word-small", "word-big", "word-small", "word-gone"];
 let animatedWordState = ["word-gone", "word-small", "word-big", "word-small"];
 // states
-let wait = false;
+let wait = true;
 let chances = 1;
 let canSelectStages = true;
 
@@ -966,6 +966,12 @@ let hSettingsButton = document.querySelector(".settings-icon");
 let hSettings = document.querySelector(".settings");
 let hsAnimationDuration = document.getElementById("animation-duration");
 let hsSecondChance = document.getElementById("second-chance");
+// end screen
+let hResults = document.querySelector(".results");
+let hResultBar = document.querySelector(".result-bar");
+let hResultBarInner = document.querySelector(".result-bar-inner");
+let hWordResults = document.querySelector(".word-results");
+let hWordResultEx = document.querySelector(".word-result-example");
 
 // WRITE TO LOCAL STORAGE
 function write(key, value) {
@@ -1048,23 +1054,34 @@ function getWordInfo() {
   }
 }
 
-// END THE TEST
+// END THE TEST AND SHOW RESULTS
 function endTest() {
   console.table(wordResultsList);
-
+  // change the screen
   changeScreen(2);
+  // show overall results with result bar and results
+  hResults.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
+  hResultBarInner.style.width = (stWordsCorrect / stWordsTested * 500).toString() + "px";
+  // show individual word results
+
+  // allow changing stages
   canSelectStages = true;
+  // reset timer
   clearInterval(timerInterval);
   time = 0;
+  // prevent inputs
+  wait = true;
 }
 
 // CHECK IF THE TEST SHOULD END
 function checkEndTest() {
+  // cycles
   if (testOptionsType === 0) {
     if (stCycleCount >= testOptionsValue) {
       endTest();
     }
   } 
+  // words
   if (testOptionsType === 1) {
     if (stWordsTested >= testOptionsValue) {
       endTest();
@@ -1131,6 +1148,8 @@ function initialise() {
   }
   // display
   display();
+  // allow inputs
+  wait = false;
 }
 
 // GET NEW WORD INFORMATION
@@ -1276,9 +1295,6 @@ document.body.addEventListener('keydown', function (event) {
   }
 });
 
-display();
-hCurrentInput.select();
-
 /*----------------
     SETTINGS
 ----------------*/
@@ -1403,5 +1419,7 @@ function free() {
 
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
+hHomeButton.onclick = function() {changeScreen(0)};
+hAgainButton.onclick = function() {startTest()};
 
 changeScreen(0);
