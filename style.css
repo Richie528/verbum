@@ -303,7 +303,7 @@ body {
 
 .dopamine-box {
   width: 500px;
-  height: 80px;
+  height: 90px;
 }
 
 .db-week {
@@ -315,7 +315,7 @@ body {
 }
 
 .db-day-container {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   justify-content: space-between;
 
@@ -523,11 +523,31 @@ input {
   background-color: var(--c-green);
 }
 
-.word-results {
+.choose {
   margin-top: 10px;
+  margin-right: 5px;
+  height: 30px;
+  width: 150px;
+
+  border-radius: 5px;
+  border: none;
+  outline: none;
+
+  background-color: #191927;
+  color: var(--c-subtext);
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.choose:hover {
+  cursor: pointer;
+}
+
+.word-results {
+  margin-top: 8px;
   padding: 20px;
   width: 600px;
-  height: 350px;
+  height: 310px;
 
   background-color: #191927;
   border-radius: 5px;
@@ -545,8 +565,11 @@ input {
 }
 
 .word-result-translation {
+  text-wrap: nowrap;
   margin-right: 7px;
   color: var(--c-subtext);
+  overflow-x: scroll;
+  max-width: 400px;
 }
 
 .word-result-stats {
