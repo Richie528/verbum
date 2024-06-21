@@ -1376,6 +1376,11 @@ function free() {
   initialise();
 }
 
+function again() {
+  if (testOptionsType === -1) free();
+  else startTest();
+}
+
 // TRY INCORRECT WORDS AGAIN
 function tryIncorrectWordsAgain() {
   let testOptionsInput = hTestOptions.value.split(" ");
@@ -1601,7 +1606,7 @@ document.body.addEventListener('keydown', function (event) {
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 hHomeButton.onclick = function() {changeScreen(0)};
-hAgainButton.onclick = function() {startTest()};
+hAgainButton.onclick = function() {again()};
 hTiwaButton.onclick = function() {tryIncorrectWordsAgain()};
 hEndTestButton.onclick = function() {endTest()};
 
