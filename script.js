@@ -1013,9 +1013,20 @@ function read(key) {
 }
 
 // SORT BY WORDS WRONG
-function sortComparator(a, b) {
+function sortWordsWrong(a, b) {
   if (a[1] - a[2] === b[1] - b[2]) return (a[0] < b[0]) ? -1 : 1;
   else return (a[1] - a[2] > b[1] - b[2]) ? -1 : 1;
+}
+
+// SORT BY WORDS CORRECT
+function sortWordsCorrect(a, b) {
+  if (a[2] == b[2]) return (a[0] < b[0]) ? -1 : 1;
+  else return (a[2] > b[2]) ? -1 : 1;
+}
+
+// SORT BY ALPHABETICAL
+function sortAlphabetical(a, b) {
+  return (a[0] < b[0]) ? -1 : 1;
 }
 
 // REMOVE CASE AND STRIP STRING
@@ -1319,166 +1330,6 @@ function initialise(fillSelectedWordList = true) {
   hCurrentInput.select();
 }
 
-// START TEST WITH CURRENT OPTIONS
-function startTest() {
-  let testOptionsInput = hTestOptions.value.split(" ");
-  // if not a valid test option
-  if (!testOptionsTypes.includes(testOptionsInput[0]) || Number.isNaN(parseInt(testOptionsInput[1]))) {
-    hTestOptions.classList.add("shake-animation");
-    setTimeout(function() {hTestOptions.classList.remove("shake-animation")}, 250);
-    return;
-  }
-  // if no stages are selected
-  if (stagesSelected === "0000000000000000000000000000000000000000") {
-    document.querySelector(".select-stages-prompt").classList.add("shake-animation");
-    setTimeout(function() {document.querySelector(".select-stages-prompt").classList.remove("shake-animation")}, 250);
-    return;
-  }
-
-  // change the screen
-  changeScreen(1);
-  // get settings
-  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
-  testOptionsValue = parseInt(testOptionsInput[1]);
-  // if timed test, calculate the time and start timer
-  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
-  if (testOptionsType < 2) {
-    hTimer.style.visibility = "hidden";
-  }
-  else {
-    hTimer.style.visibility = "visible";
-    time = testOptionsValue;
-    displayTimer();
-    timerInterval = setInterval(function() {
-      time -= 1;
-      displayTimer();
-    }, 1000);
-    setTimeout(function() {
-      endTest();
-    }, 1000 * testOptionsValue);
-  }
-  // freeze stage lists
-  canSelectStages = false;
-  // start the test
-  initialise();
-}
-
-// FREE MODE
-function free() {
-  // change the screen
-  changeScreen(1);
-  // remove test options
-  testOptionsType = -1;
-  testOptionsValue = 0;
-  // hide the timer
-  hTimer.style.visibility = "hidden";
-  // start the test!
-  initialise();
-}
-
-function again() {
-  if (testOptionsType === -1) free();
-  else startTest();
-}
-
-// TRY INCORRECT WORDS AGAIN
-function tryIncorrectWordsAgain() {
-  let testOptionsInput = hTestOptions.value.split(" ");
-  // make list
-  selectedWordlist = [];
-  for (let result of wordResultsList) {
-    if (result[1] - result[2] > 0) {
-      selectedWordlist.push(result[0]);
-    }
-  }
-  // if no wrong words (shake animation)
-  if (selectedWordlist.length === 0) {
-    hTiwaButton.classList.add("shake-animation");
-    setTimeout(function() {hTiwaButton.classList.remove("shake-animation")}, 250);
-    return;
-  }
-  // change the screen
-  changeScreen(1);
-  // get settings
-  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
-  testOptionsValue = parseInt(testOptionsInput[1]);
-  // if timed test, calculate the time and start timer
-  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
-  if (testOptionsType < 2) {
-    hTimer.style.visibility = "hidden";
-  }
-  else {
-    hTimer.style.visibility = "visible";
-    time = testOptionsValue;
-    displayTimer();
-    timerInterval = setInterval(function() {
-      time -= 1;
-      displayTimer();
-    }, 1000);
-    setTimeout(function() {
-      endTest();
-    }, 1000 * testOptionsValue);
-  }
-  // freeze stage lists
-  canSelectStages = false;
-  // start the test
-  initialise(false);
-}
-
-// END THE TEST AND SHOW RESULTS
-function endTest() {
-  // if 50% or above and >= 10 words correct, complete dopamine box for this day
-  if (stWordsCorrect / stWordsTested >= 0.5 && stWordsCorrect >= 10) {
-    dbTestsCompleted = dbTestsCompleted.substring(0, currentDay) + "1" + dbTestsCompleted.substring(currentDay + 1);
-    saveDopamineBox();
-    displayDopamineBox();
-  }  
-  // change the screen
-  changeScreen(2);
-  // show overall results with result bar and results
-  hResults.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
-  hResultBarInner.style.width = Math.floor(stWordsCorrect / stWordsTested * 500).toString() + "px";
-  // show individual word results
-  wordResultsList.sort(sortComparator);
-  hWordResults.innerHTML = ``;
-  for (let result of wordResultsList) {
-    // don't show if the word wasn't tested
-    if (result[1] === 0) continue;
-    // create an element
-    let wordResultElement = document.createElement("div");
-    wordResultElement.classList.add("word-result");
-    wordResultElement.innerHTML = `
-      <div style="display:flex">
-        <div class="word-result-word">porto</div>
-        <div class="word-result-translation">carry, bring</div>
-        <div class="word-result-stats">3/3</div>
-      </div>
-      <div class="word-result-bar">
-        <div class="word-result-bar-inner"></div>
-      </div>
-    `;
-    // display the stats
-    wordResultElement.querySelector(".word-result-word").textContent = word[result[0]][0];
-    let translationsText = "";
-    for (let j = 0; j < word[result[0]][3].length; j++) {
-      translationsText += word[result[0]][3][j];
-      if (j != word[result[0]][3].length - 1) translationsText += ", ";
-    }
-    wordResultElement.querySelector(".word-result-translation").textContent = translationsText;
-    wordResultElement.querySelector(".word-result-stats").textContent = result[2].toString() + "/" + result[1].toString();
-    wordResultElement.querySelector(".word-result-bar-inner").style.width = Math.floor(result[2] / result[1] * 580).toString() + "px";
-    // append the element to the word results
-    hWordResults.appendChild(wordResultElement);
-  }
-  // allow changing stages
-  canSelectStages = true;
-  // reset timer
-  clearInterval(timerInterval);
-  time = 0;
-  // prevent inputs
-  wait = true;
-}
-
 // CHECK IF THE TEST SHOULD END
 function checkEndTest() {
   // cycles
@@ -1602,6 +1453,198 @@ document.body.addEventListener('keydown', function (event) {
       if (!wait) run();
   }
 });
+
+/*----------------
+   HOME AND END
+----------------*/
+
+// START TEST WITH CURRENT OPTIONS
+function startTest() {
+  let testOptionsInput = hTestOptions.value.split(" ");
+  // if not a valid test option
+  if (!testOptionsTypes.includes(testOptionsInput[0]) || Number.isNaN(parseInt(testOptionsInput[1]))) {
+    hTestOptions.classList.add("shake-animation");
+    setTimeout(function() {hTestOptions.classList.remove("shake-animation")}, 250);
+    return;
+  }
+  // if no stages are selected
+  if (stagesSelected === "0000000000000000000000000000000000000000") {
+    document.querySelector(".select-stages-prompt").classList.add("shake-animation");
+    setTimeout(function() {document.querySelector(".select-stages-prompt").classList.remove("shake-animation")}, 250);
+    return;
+  }
+
+  // change the screen
+  changeScreen(1);
+  // get settings
+  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
+  testOptionsValue = parseInt(testOptionsInput[1]);
+  // if timed test, calculate the time and start timer
+  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
+  if (testOptionsType < 2) {
+    hTimer.style.visibility = "hidden";
+  }
+  else {
+    hTimer.style.visibility = "visible";
+    time = testOptionsValue;
+    displayTimer();
+    timerInterval = setInterval(function() {
+      time -= 1;
+      displayTimer();
+    }, 1000);
+    setTimeout(function() {
+      endTest();
+    }, 1000 * testOptionsValue);
+  }
+  // freeze stage lists
+  canSelectStages = false;
+  // start the test
+  initialise();
+}
+
+// FREE MODE
+function free() {
+  // change the screen
+  changeScreen(1);
+  // remove test options
+  testOptionsType = -1;
+  testOptionsValue = 0;
+  // hide the timer
+  hTimer.style.visibility = "hidden";
+  // start the test!
+  initialise();
+}
+
+// RESTART TEST AGAIN
+function again() {
+  if (testOptionsType === -1) free();
+  else startTest();
+}
+
+// TRY INCORRECT WORDS AGAIN
+function tryIncorrectWordsAgain() {
+  let testOptionsInput = hTestOptions.value.split(" ");
+  // make list
+  selectedWordlist = [];
+  for (let result of wordResultsList) {
+    if (result[1] - result[2] > 0) {
+      selectedWordlist.push(result[0]);
+    }
+  }
+  // if no wrong words (shake animation)
+  if (selectedWordlist.length === 0) {
+    hTiwaButton.classList.add("shake-animation");
+    setTimeout(function() {hTiwaButton.classList.remove("shake-animation")}, 250);
+    return;
+  }
+  // change the screen
+  changeScreen(1);
+  // get settings
+  testOptionsType = testOptionsTypes.indexOf(testOptionsInput[0]);
+  testOptionsValue = parseInt(testOptionsInput[1]);
+  // if timed test, calculate the time and start timer
+  if (testOptionsType === 3) testOptionsValue = testOptionsValue * 60;
+  if (testOptionsType < 2) {
+    hTimer.style.visibility = "hidden";
+  }
+  else {
+    hTimer.style.visibility = "visible";
+    time = testOptionsValue;
+    displayTimer();
+    timerInterval = setInterval(function() {
+      time -= 1;
+      displayTimer();
+    }, 1000);
+    setTimeout(function() {
+      endTest();
+    }, 1000 * testOptionsValue);
+  }
+  // freeze stage lists
+  canSelectStages = false;
+  // start the test
+  initialise(false);
+}
+
+// DISPLAY WORD RESULTS
+function displayWordResults(categoryType, sortType) {
+  let resultsList = [];
+  if (categoryType === 0) resultsList = [...wordResultsList];
+  if (categoryType === 1) {
+    for (let i = 0; i < stage.length; i++) {
+      let numTested = 0, numCorrect = 0;
+      for (let result of wordResultsList) {
+        if (stage[i].includes(result[0])) {
+          numTested += result[1];
+          numCorrect += result[2];
+        }
+      }
+      resultsList.push([i, numTested, numCorrect]);
+    }
+  }
+  // show individual word results
+  if (sortType === 0) resultsList.sort(sortAlphabetical);
+  if (sortType === 1) resultsList.sort(sortWordsWrong);
+  if (sortType === 2) resultsList.sort(sortWordsCorrect);
+  hWordResults.innerHTML = ``;
+  for (let result of resultsList) {
+    // don't show if the word wasn't tested
+    if (result[1] === 0) continue;
+    // create an element
+    let wordResultElement = document.createElement("div");
+    wordResultElement.classList.add("word-result");
+    wordResultElement.innerHTML = `
+      <div style="display:flex">
+        <div class="word-result-word"></div>
+        <div class="word-result-translation"></div>
+        <div class="word-result-stats"></div>
+      </div>
+      <div class="word-result-bar">
+        <div class="word-result-bar-inner"></div>
+      </div>
+    `;
+    // display the stats
+    if (categoryType === 0) {
+      wordResultElement.querySelector(".word-result-word").textContent = word[result[0]][0];
+      let translationsText = "";
+      for (let j = 0; j < word[result[0]][3].length; j++) {
+        translationsText += word[result[0]][3][j];
+        if (j != word[result[0]][3].length - 1) translationsText += ", ";
+      }
+      wordResultElement.querySelector(".word-result-translation").textContent = translationsText;
+    }
+    if (categoryType === 1) {
+      wordResultElement.querySelector(".word-result-word").textContent = "Stage " + result[0].toString();
+    }
+    wordResultElement.querySelector(".word-result-stats").textContent = result[2].toString() + "/" + result[1].toString();
+    wordResultElement.querySelector(".word-result-bar-inner").style.width = Math.floor(result[2] / result[1] * 580).toString() + "px";
+    // append the element to the word results
+    hWordResults.appendChild(wordResultElement);
+  }
+}
+
+// END THE TEST AND SHOW RESULTS
+function endTest() {
+  // if 50% or above and >= 10 words correct, complete dopamine box for this day
+  if (stWordsCorrect / stWordsTested >= 0.5 && stWordsCorrect >= 10) {
+    dbTestsCompleted = dbTestsCompleted.substring(0, currentDay) + "1" + dbTestsCompleted.substring(currentDay + 1);
+    saveDopamineBox();
+    displayDopamineBox();
+  }  
+  // change the screen
+  changeScreen(2);
+  // show overall results with result bar and results
+  hResults.textContent = stWordsCorrect.toString() + "/" + stWordsTested.toString();
+  hResultBarInner.style.width = Math.floor(stWordsCorrect / stWordsTested * 500).toString() + "px";
+  // show word results
+  displayWordResults(1, 1);
+  // allow changing stages
+  canSelectStages = true;
+  // reset timer
+  clearInterval(timerInterval);
+  time = 0;
+  // prevent inputs
+  wait = true;
+}
 
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
