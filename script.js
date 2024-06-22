@@ -1125,7 +1125,7 @@ let stage = [
 let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
 let sSecondChance = true;
-let sDopamineBox = true;
+let sDopamineBox = false;
 // stages
 let stagesSelected = "00000000000000000000000000000000000000000";
 // timer
