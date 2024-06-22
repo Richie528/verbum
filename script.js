@@ -846,7 +846,232 @@ let word = [
   ['vōx', 'vōx, vōcis, f.', 'n', ['voice']],
   ['vulnerō', 'vulnerō, vulnerāre, vulnerāvī, vulnerātus', 'v', ['wound', 'injure']],
   ['vulnus', 'vulnus, vulneris, n.', 'n', ['wound']],
-  ['vultus', 'vultus, vultūs, m.', 'n', ['expression', 'face']]
+  ['vultus', 'vultus, vultūs, m.', 'n', ['expression', 'face']],
+  ['anima', 'anima, animae, f. ', '', ['mind', 'spirit']],
+  ['aquila', 'aquila, aquilae, f.', 'f.', ['eagle', 'standard']],
+  ['avāritia', 'avāritia, avāritiae, f.', 'f.', ['greed']],
+  ['catēna', 'catēna, catēnae, f.', 'f.', ['chain']],
+  ['coma', 'coma, comae, f.', 'f.', ['hair', 'leaves']],
+  ['corōna', 'corōna, corōnae, f.', 'f.', ['crown']],
+  ['culpa', 'culpa, culpae, f.', 'f.', ['fault']],
+  ['fāma', 'fāma, fāmae, f.', 'f.', ['rumour', 'reputation']],
+  ['fōrma', 'fōrma, fōrmae, f.', 'f.', ['shape', 'beauty']],
+  ['fossa', 'fossa, fossae, f.', 'f.', ['ditch', 'trench']],
+  ['harēna', 'harēna, harēnae, f.', 'f.', ['sand']],
+  ['inopia', 'inopia, inopiae, f.', 'f.', ['shortage']],
+  ['iūstitia', 'iūstitia, iūstitiae, f.', 'f.', ['justice']],
+  ['lingua', 'lingua, linguae, f.', 'f.', ['tongue', 'language']],
+  ['minae', 'minae, minārum, f. pl.', '', ['threats']],
+  ['mora', 'mora, morae, f.', 'f.', ['delay']],
+  ['ōra', 'ōra, ōrae, f.', 'f.', ['seashore']],
+  ['praeda', 'praeda, praedae, f.', 'f.', ['plunder']],
+  ['rīpa', 'rīpa, rīpae, f.', 'f.', ['river bank']],
+  ['sagitta', 'sagitta, sagittae, f.', 'f.', ['arrow']],
+  ['scientia', 'scientia, scientiae, f.', 'f.', ['knowledge']],
+  ['tenebrae', 'tenebrae, tenebrārum, f. pl.', '', ['darkness']],
+  ['tuba', 'tuba, tubae, f.', 'f.', ['trumpet']],
+  ['avus', 'avus, avī, m.', 'm.', ['grandfather']],
+  ['dolus', 'dolus, dolī, m.', 'm.', ['trickery']],
+  ['pontus', 'pontus, pontī, m.', 'm.', ['sea']],
+  ['rāmus', 'rāmus, rāmī, m.', 'm.', ['branch']],
+  ['rēmus', 'rēmus, rēmī, m.', 'm.', ['oar']],
+  ['somnus', 'somnus, somnī, m.', 'm.', ['sleep']],
+  ['umerus', 'umerus, umerī, f.', 'f.', ['shoulder']],
+  ['antrum', 'antrum, antrī, n.', 'n.', ['cave']],
+  ['argentum', 'argentum, argentī, n.', 'n.', ['silver']],
+  ['Capitōlium', 'Capitōlium, Capitōliī, n.', 'n.', ['the capitoline hill']],
+  ['exitium', 'exitium, exitiī, n.', 'n.', ['destruction']],
+  ['hiberna', 'hiberna, hibernōrum, n. pl.', '', ['winter camp']],
+  ['hospitium', 'hospitium, hospitiī, n.', 'n.', ['hospitality']],
+  ['impedimenta', 'impedimenta, impedimentōrum, n. pl.', '', ['baggage']],
+  ['ingenium', 'ingenium, ingeniī, n.', 'n.', ['character', 'ability']],
+  ['iūdicium', 'iūdicium, iūdiciī, n.', 'n.', ['trial', 'sentence']],
+  ['lētum', 'lētum, lētī, n.', 'n.', ['death']],
+  ['ferrum', 'ferrum, ferrī, n.', 'n.', ['iron', 'sword']],
+  ['ōtium', 'ōtium, ōtiī, n.', 'n.', ['leisure']],
+  ['pelagus', 'pelagus, pelagī, n.', 'n.', ['open sea']],
+  ['scūtum', 'scūtum, scūtī, n.', 'n.', ['shield']],
+  ['similācrum', 'similācrum, simulācrī, n.', 'n.', ['image']],
+  ['solum', 'solum, solī, n.', 'n.', ['ground']],
+  ['supplicium', 'supplicium, suppliciī, n.', 'n.', ['death penalty']],
+  ['telum', 'telum, telī, n.', 'n.', ['spear', 'javelin']],
+  ['vallum', 'vallum, vallī, n.', 'n.', ['palisade']],
+  ['vēlum', 'vēlum, vēlī, n.', 'n.', ['sail']],
+  ['vēstīgium', 'vēstīgium, vēstīgiī, n.', 'n.', ['track']],
+  ['vinculum', 'vinculum, vinculī, n.', 'n.', ['chains']],
+  ['vulgus', 'vulgus, vulgī, n.', 'n.', ['rabble']],
+  ['agger', 'agger, aggeris, m.', 'm.', ['rampart']],
+  ['crīnis', 'crīnis, crīnis, m.', 'm.', ['hair']],
+  ['ēnsis', 'ēnsis, ēnsis, m.', 'm.', ['sword']],
+  ['fūnis', 'fūnis, fūnis, m.', 'm.', ['rope']],
+  ['genitor', 'genitor, genitōris, m.', 'm.', ['father']],
+  ['Mānēs', 'Mānēs, Mānium, m. pl.', '', ['spirits of the dead']],
+  ['mōs', 'mōs, mōris, m.', 'm.', ['custom', 'tradition']],
+  ['nepōs', 'nepōs, nepōtis, m.', 'm.', ['grandson']],
+  ['obses', 'obses, obsidis, m./f.', '', ['hostage']],
+  ['pedes', 'pedes, peditis, m.', 'm.', ['foot soldier', 'infantry']],
+  ['praedō', 'praedō, praedōnis, m.', 'm.', ['robber']],
+  ['pudor', 'pudor, pudōris, m.', 'm.', ['sense of honour']],
+  ['sermō', 'sermō, sermōnis, m.', 'm.', ['conversation']],
+  ['vātēs', 'vātēs, vātis, m.', 'm.', ['prophet']],
+  ['vesper', 'vesper, vesperis, m.', 'm.', ['evening']],
+  ['aestās', 'aestās, aestātis, f.', 'f.', ['summer']],
+  ['aetās', 'aetās, aetātis, f.', 'f.', ['age']],
+  ['altitūdō', 'altitūdō, altitūdinis, f.', 'f.', ['depth', 'height']],
+  ['avis', 'avis, avis, f.', 'f.', ['bird']],
+  ['classis', 'classis, classis, f.', 'f.', ['fleet']],
+  ['coniūrātiō', 'coniūrātiō, coniūrātiōnis, f.', 'f.', ['conspiracy']],
+  ['contentiō', 'contentiō, contentiōnis, f.', 'f.', ['struggle']],
+  ['ēruptiō', 'ēruptiō, ēruptiōnis, f.', 'f.', ['counterattack']],
+  ['famēs', 'famēs, famis, f.', 'f.', ['hunger']],
+  ['fax', 'fax, facis, f.', 'f.', ['torch']],
+  ['imāgō', 'imāgō, imāginis, f.', 'f.', ['form']],
+  ['iuventūs', 'iuventūs, iuventūtis, f.', 'f.', ['youth']],
+  ['māgnitūdō', 'māgnitūdō, māgnitūdinis, f.', 'f.', ['size']],
+  ['mōlēs', 'mōlēs, mōlis, f.', 'f.', ['mass']],
+  ['mūnitiō', 'mūnitiō, mūnitiōnis, f.', 'f.', ['fortification']],
+  ['nūbēs', 'nūbēs, nūbis, f.', 'f.', ['cloud']],
+  ['occāsiō', 'occāsiō, occāsiōnis, f.', 'f.', ['opportunity']],
+  ['palūs', 'palūs, palūdis, f.', 'f.', ['swamp']],
+  ['pellis', 'pellis, pellis, f.', 'f.', ['skin']],
+  ['pestis', 'pestis, pestis, f.', 'f.', ['plague', 'destruction']],
+  ['rūpēs', 'rūpēs, rūpis, f.', 'f.', ['cliff']],
+  ['secūris', 'secūris, secūris, f.', 'f.', ['axe']],
+  ['sīdus', 'sīdus, sīderis, n.', 'n.', ['star']],
+  ['sors', 'sors, sortis, f.', 'f.', ['lot', 'fortune']],
+  ['stirps', 'stirps, stirpis, f.', 'f.', ['lineage']],
+  ['tellūs', 'tellūs, tellūris, f.', 'f.', ['earth']],
+  ['turris', 'turris, turris, f.', 'f.', ['tower']],
+  ['voluptās', 'voluptās, voluptātis, f.', 'f.', ['pleasure']],
+  ['aequor', 'aequor, aequoris, n.', 'n.', ['sea']],
+  ['aes', 'aes, aeris, n.', 'n.', ['bronze']],
+  ['aethēr', 'aethēr, aetheris, n.', 'n.', ['sky']],
+  ['certāmen', 'certāmen, certāminis, n.', 'n.', ['struggle']],
+  ['cor', 'cor, cordis, n.', 'n.', ['heart']],
+  ['facinus', 'facinus, facinoris, n.', 'n.', ['crime']],
+  ['foedus', 'foedus, foederis, n.', 'n.', ['treaty']],
+  ['fulmen', 'fulmen, fulminis, n.', 'n.', ['thunder']],
+  ['fūnus', 'fūnus, fūneris, n.', 'n.', ['funeral']],
+  ['lūmen', 'lūmen, lūminis, n.', 'n.', ['light']],
+  ['nemus', 'nemus, nemoris, n.', 'n.', ['grove']],
+  ['nūmen', 'nūmen, nūminis, n.', 'n.', ['divinity']],
+  ['onus', 'onus, oneris, n.', 'n.', ['burden']],
+  ['ōs', 'ōs, ōris, n.', 'n.', ['face']],
+  ['os', 'os, ossis, n.', 'n.', ['bone']],
+  ['pondus', 'pondus, ponderis, n.', 'n.', ['weight']],
+  ['adventus', 'adventus, adventūs, m.', 'm.', ['arrival']],
+  ['cāsūs', 'cāsūs, cāsūs, m.', 'm.', ['chance', 'accident', 'fall']],
+  ['cōnsulātus', 'cōnsulātus, cōnsulātūs, m.', 'm.', ['consulship']],
+  ['cornū', 'cornū, cornūs, n.', 'n.', ['horn']],
+  ['equitātus', 'equitātus, equitātūs, m.', 'm.', ['cavalry']],
+  ['fluctus', 'fluctus, fluctūs, n.', 'n.', ['wave']],
+  ['impetus', 'impetus, impetūs, m.', 'm.', ['rush', 'attack']],
+  ['lūctus', 'lūctus, lūctus, m.', 'm.', ['mourning']],
+  ['sinus', 'sinus, sinūs, m.', 'm.', ['curve', 'bay']],
+  ['strepitus', 'strepitus, strepitūs, m.', 'm.', ['uproar']],
+  ['tumultus', 'tumultus, tumultūs, m.', 'm.', ['riot']],
+  ['versus', 'versus, versūs, m.', 'm.', ['verse']],
+  ['aciēs', 'aciēs, aciēī, f.', 'f.', ['battle-line']],
+  ['effigiēs', 'effigiēs, effigiēī, f.', 'f.', ['likeness']],
+  ['faciēs', 'faciēs, faciēī, f.', 'f.', ['face']],
+  ['rēs pūblica', 'rēs pūblica, rēī pūblicae, f.', 'f.', ['state', 'government']],
+  ['acerbus', 'acerbus, acerba, acerbum', '', ['bitter']],
+  ['adversus', 'adversus, adversa, adversum', '', ['opposite']],
+  ['aeturnus', 'aeturnus, aeturna, aeturnum', '', ['everlasting']],
+  ['aliēnus', 'aliēnus, aliēna, aliēnum', '', ['foreign']],
+  ['angustus', 'angustus, angusta, angustum', '', ['narrow']],
+  ['arduus', 'arduus, ardua, arduum', '', ['steep']],
+  ['asper', 'asper, aspera, asperum', '', ['rough']],
+  ['āter', 'āter, ātra, ātrum', '', ['black']],
+  ['aureus', 'aureus, aurea, aureum', '', ['golden']],
+  ['caecus', 'caecus, caeca, caecum', '', ['blind']],
+  ['cōnfertus', 'cōnfertus, cōnferta, cōnfertum', '', ['crowded']],
+  ['cōnscius', 'cōnscius, cōnscia, cōnscium', '', ['aware']],
+  ['crēber', 'crēber, crēbra, crēbrum', '', ['frequent', 'thick']],
+  ['cūnctus', 'cūnctus, cūncta, cūnctum', '', ['all']],
+  ['dēfessus', 'dēfessus, dēfessa, dēfessum', '', ['exhausted']],
+  ['dexter', 'dexter, dextra, dextrum', '', ['right']],
+  ['dīversus', 'dīversus, dīversa, dīversum', '', ['different from']],
+  ['dubius', 'dubius, dubia, dubium', '', ['doubtful']],
+  ['ēgregius', 'ēgregius, ēgregia, ēgregium', '', ['outstanding']],
+  ['exiguus', 'exiguus, exigua, exiguum', '', ['short']],
+  ['ferus', 'ferus, fera, ferum', '', ['wild']],
+  ['geminus', 'geminus, gemina, geminum', '', ['twin']],
+  ['idōneus', 'idōneus, idōnea, idōneum', '', ['suitable']],
+  ['ignōtus', 'ignōtus, ignōta, ignōtum', '', ['unknown']],
+  ['improbus', 'improbus, improba, improbum', '', ['wicked']],
+  ['imprōvisus', 'imprōvisus, imprōvisa, imprōvisum', '', ['unforeseen']],
+  ['īmus', 'īmus, īma, īmum', '', ['lowest']],
+  ['īnfēstus', 'īnfēstus, īnfēsta, īnfēstum', '', ['hostile']],
+  ['integer', 'integer, integra, integrum', '', ['whole']],
+  ['invīsus', 'invīsus, invīsa, invīsum', '', ['hated']],
+  ['laevus', 'laevus, laeva, laevum', '', ['left']],
+  ['lātus', 'lātus, lāta, lātum', '', ['wide']],
+  ['liber', 'liber, libera, liberum', '', ['free']],
+  ['obscūrus', 'obscūrus, obscūra, obscūrum', '', ['dark']],
+  ['posterus', 'posterus, postera, posterum', '', ['following']],
+  ['reliquus', 'reliquus, reliqua, reliquum', '', ['remaining']],
+  ['superus', 'superus, supera, superum', '', ['upper']],
+  ['ācer', 'ācer, ācris, ācre', '', ['sharp']],
+  ['commūnis', 'commūnis, commūne', '', ['common']],
+  ['dulcis', 'dulcis, dulce', '', ['sweet']],
+  ['felīx', 'felīx, felīcis', '', ['lucky']],
+  ['mollis', 'mollis, molle', '', ['soft']],
+  ['pār', 'pār, paris', '', ['equal']],
+  ['quīcumque', 'quīcumque, quaecumque, quodcumque', '', ['whoever', 'whatever']],
+  ['quisque', 'quisque, quaeque, quodque', '', ['each']],
+  ['uterque', 'uterque, utraque, utrumque', '', ['each']],
+  ['dēferō', 'dēferō, dēferre, dētulī, dēlātum', '', ['carry away']],
+  ['praesum', 'praesum, praeesse, praefuī (+ dat)', '', ['be in charge']],
+  ['licet', 'licet, licēre, licuit', '', ['be permitted']],
+  ['meminī', 'meminī, meminisse', '', ['remember']],
+  ['aggredior', 'aggredior, aggredī, aggressus sum', '', ['attack']],
+  ['praeficiō', 'praeficiō, praeficere, praefēcī, praefectum', '', ['put in charge']],
+  ['experior', 'experior, experīrī, expertus sum', '', ['test out']],
+  ['mūniō', 'mūniō, mūnīre, mūnīvī, mūnītum', '', ['fortify']],
+  ['accēdō', 'accēdō, accēdere, accessī, accessum', '', ['approach']],
+  ['addō', 'addō, addere, addidī, additum', '', ['add']],
+  ['caedō', 'caedō, caedere, cecīdī, caesum', '', ['strike']],
+  ['colō', 'colō, colere, coluī, cultum', '', ['cultivate', 'practise', 'cherish', 'live in']],
+  ['dēdūcō', 'dēdūcō, dēdūcere, dēdūxī, dēductum', '', ['withdraw']],
+  ['dēligō', 'dēligō, dēligere, dēlēgī, dēlēctum', '', ['choose']],
+  ['īnstituō', 'īnstituō, īnstituere, īnstituī, īnstitūtum', '', ['set up']],
+  ['metuō', 'metuō, metuere, metuī, metūtum', '', ['fear']],
+  ['pellō', 'pellō, pellere, pepulī, pulsum', '', ['drive away']],
+  ['premō', 'premō, premere, pressī, pressum', '', ['press']],
+  ['prōpōnō', 'prōpōnō, prōpōnere, prōposuī, prōpositum', '', ['propose']],
+  ['sē recipere', 'sē recipere', '', ['retreat']],
+  ['solvō', 'solvō, solvere, solvī, solūtum', '', ['release']],
+  ['retineō', 'retineō, retinēre, retinuī, retentum', '', ['hold back']],
+  ['arbitror', 'arbitror, arbitrarī, arbitrātus sum', '', ['think']],
+  ['fugō', 'fugō, fugāre, fugāvī, fugātum', '', ['put to flight']],
+  ['for', 'for, fārī, fātus sum', '', ['speak']],
+  ['iūrō', 'iūrō, iūrāre, iūrāvī, iūrātum', '', ['swear']],
+  ['iuvō', 'iuvō, iuvāre, iūvī, iūtum', '', ['help']],
+  ['negō', 'negō, negāre, negāvī, negātum', '', ['deny', 'refuse']],
+  ['occupō', 'occupō, occupāre, occupāvī, occupātum', '', ['seize']],
+  ['praestō', 'praestō, praestāre, praestitī, praestitum', '', ['stand out']],
+  ['vastō', 'vastō, vastāre, vastāvī, vastātum', '', ['devastate']],
+  ['-ve', '-ve', '', ['or']],
+  ['causā (+ gen)', 'causā (+ gen)', '', ['for the sake of']],
+  ['propter (+ acc)', 'propter (+ acc)', '', ['because of']],
+  ['super (+ abl)', 'super (+ abl)', '', ['on top of']],
+  ['antequam', 'antequam', '', ['before']],
+  ['aut . . . aut', 'aut . . . aut', '', ['either ... or']],
+  ['vel . . . vel', 'vel . . . vel', '', ['either ... or']],
+  ['amplius', 'amplius', '', ['more']],
+  ['circiter', 'circiter', '', ['about']],
+  ['eō', 'eō', '', ['in that place', 'there', 'is']],
+  ['ferē', 'ferē', '', ['almost']],
+  ['interim', 'interim', '', ['meanwhile']],
+  ['itaque', 'itaque', '', ['and so']],
+  ['longē', 'longē', '', ['far off']],
+  ['nondum', 'nondum', '', ['not yet']],
+  ['parum', 'parum', '', ['too little']],
+  ['prīmum', 'prīmum', '', ['at first']],
+  ['quā', 'quā', '', ['where']],
+  ['tantum', 'tantum', '', ['only', 'so great']],
+  ['velut', 'velut', '', ['just as']]
 ]
 let stage = [
   [89, 153, 275, 322, 348, 349, 391, 434, 553, 700, 709, 744, 824],
@@ -888,7 +1113,8 @@ let stage = [
   [129, 196, 201, 206, 218, 251, 277, 522, 529, 555, 557, 568, 613, 627, 673, 698, 761, 776, 805],
   [107, 114, 151, 191, 242, 264, 305, 339, 386, 404, 412, 510, 541, 581, 610, 616, 638, 664, 815, 816, 832],
   [57, 75, 85, 88, 91, 202, 241, 262, 287, 301, 316, 389, 413, 414, 442, 720, 735, 737, 789],
-  [23, 37, 73, 142, 158, 167, 185, 252, 350, 372, 403, 451, 471, 521, 608, 612, 717, 722, 739, 783, 799, 826]
+  [23, 37, 73, 142, 158, 167, 185, 252, 350, 372, 403, 451, 471, 521, 608, 612, 717, 722, 739, 783, 799, 826],
+  [848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051, 1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059, 1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067, 1068, 1069, 1070, 1071, 1072]
 ]
 
 /*----------------
@@ -899,9 +1125,9 @@ let stage = [
 let sSettingsOpen = false;
 let sAnimationDuration = 0.75;
 let sSecondChance = true;
-let sDopamineBox = true;
+let sDopamineBox = false;
 // stages
-let stagesSelected = "0000000000000000000000000000000000000000";
+let stagesSelected = "00000000000000000000000000000000000000000";
 // timer
 let time = 0;
 let timerInterval;
@@ -1111,9 +1337,7 @@ hSettingsButton.onclick = function() {
   if (!sSettingsOpen) hSettings.style.display = "none";
 }
 
-// load settings from local storage
-loadSettings();
-// update sattings whenever an input field is changed
+// update settings whenever an input field is changed
 hsAnimationDuration.onkeyup = function() {updateSettings()};
 hsSecondChance.onclick = function() {updateSettings()};
 hsDopamineBox.onclick = function() {updateSettings()};
@@ -1130,14 +1354,14 @@ function loadStages() {
 
 // DISPLAY STAGES
 function displayStages() {
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 41; i++) {
     if (stagesSelected[i] === "0") hStageButtons[i].style.backgroundColor = "#313244";
     else hStageButtons[i].style.backgroundColor = "#11111b";
   }
 }
 
 // STAGE SELECTION
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 41; i++) {
   hStageButtons[i].onclick = function(event) {
     if (!canSelectStages) return;
     // shift click: toggle up to
@@ -1157,9 +1381,6 @@ for (let i = 0; i < 40; i++) {
     initialise();
   }
 }
-
-// load stages from local storage
-loadStages();
 
 /*----------------
       STATS
@@ -1229,9 +1450,6 @@ function saveDopamineBox() {
   write("db-week", currentWeek);
   write("db-completed", dbTestsCompleted);
 }
-
-// load dopamine box info from local storage
-loadDopamineBox();
 
 /*----------------
       TEST
@@ -1303,7 +1521,7 @@ function initialise(fillSelectedWordList = true) {
   if (fillSelectedWordList) {
     selectedWordlist = [];
     let aStageIsSelected = false;
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 41; i++) {
       if (stagesSelected[i] === '1') { // if a stage it selected
         aStageIsSelected = true;
         // add all words in the stage
@@ -1474,7 +1692,7 @@ function startTest() {
     return;
   }
   // if no stages are selected
-  if (stagesSelected === "0000000000000000000000000000000000000000") {
+  if (stagesSelected === "00000000000000000000000000000000000000000") {
     document.querySelector(".select-stages-prompt").classList.add("shake-animation");
     setTimeout(function() {document.querySelector(".select-stages-prompt").classList.remove("shake-animation")}, 250);
     return;
@@ -1578,7 +1796,6 @@ function loadResultOptions() {
   categoryType = parseInt(read("category"));
   sortType = parseInt(read("sort"));
 }
-loadResultOptions();
 
 // DISPLAY WORD RESULTS
 function displayWordResults() {
@@ -1598,7 +1815,8 @@ function displayWordResults() {
           numCorrect += result[2];
         }
       }
-      resultsList.push([i, numTested, numCorrect]);
+      if (i === 40) resultsList.push(["Extra list", numTested, numCorrect]);
+      else resultsList.push([i + 1, numTested, numCorrect]);
     }
   }
 
@@ -1634,7 +1852,8 @@ function displayWordResults() {
       wordResultElement.querySelector(".word-result-translation").textContent = translationsText;
     }
     if (categoryType === 1) {
-      wordResultElement.querySelector(".word-result-word").textContent = "Stage " + result[0].toString();
+      if (result[0] === "Extra list") wordResultElement.querySelector(".word-result-word").textContent = result[0];
+      else wordResultElement.querySelector(".word-result-word").textContent = "Stage " + result[0].toString();
     }
     wordResultElement.querySelector(".word-result-stats").textContent = result[2].toString() + "/" + result[1].toString();
     wordResultElement.querySelector(".word-result-bar-inner").style.width = Math.floor(result[2] / result[1] * 580).toString() + "px";
@@ -1643,6 +1862,7 @@ function displayWordResults() {
   }
 }
 
+// RESULT OPTION BUTTONS
 hCategoryType.onclick = function() {
   categoryType = (categoryType + 1) % 2;
   displayWordResults();
@@ -1677,11 +1897,18 @@ function endTest() {
   wait = true;
 }
 
+// NAVIGATION BUTTONS
 hStartButton.onclick = function() {startTest()};
 hFreeButton.onclick = function() {free()};
 hHomeButton.onclick = function() {changeScreen(0)};
 hAgainButton.onclick = function() {again()};
 hTiwaButton.onclick = function() {tryIncorrectWordsAgain()};
 hEndTestButton.onclick = function() {endTest()};
+
+// LOAD ALL STUFF AND CHANGE SCREEN
+loadSettings();      // settings
+loadStages();        // selected stages
+loadDopamineBox();   // dopamine box stats
+loadResultOptions(); // result options
 
 changeScreen(0);
