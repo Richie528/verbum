@@ -8,7 +8,7 @@ let word = [
   ['accipiō', 'accipiō, accipere, accēpī, acceptus', 'v', ['accept', 'take in', 'receive']],
   ['accūsō', 'accūsō, accūsāre, accūsāvī, accūsātus', 'v', ['accuse']],
   ['ad + acc.', 'ad + acc.', 'p', ['to', 'at']],
-  ['adeō', 'adeō, adīre, adiī', 'v', ['go']],
+  ['adeō', 'adeō, adīre, adiī', 'v', ['go', 'approach']],
   ['adeō', 'adeō', 'd', ['so much', 'so greatly']],
   ['adhūc', 'adhūc', 'd', ['up till now']],
   ['adipīscor', 'adipīscor, adipīscī, adeptus sum', 'v', ['receive', 'obtain']],
