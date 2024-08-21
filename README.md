@@ -12,6 +12,8 @@ Based off the original vocabulary testers:
 - https://files.cambridgescp.com/CLC/VocabTesters/vocuk4.html
 - https://files.cambridgescp.com/CLC/VocabTesters/vocuk5.html
 
+---
+
 ### Features:
 
 - An improved UI (in my opinion)
@@ -22,6 +24,8 @@ Based off the original vocabulary testers:
 - Improved test review
 - TIWA: Try incorrect words again
 - "Free" mode: Endless testing
+
+---
 
 ![image](https://github.com/user-attachments/assets/9b9823af-6f42-41bb-859b-75fe9f2cae35)
 
