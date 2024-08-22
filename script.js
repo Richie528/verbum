@@ -645,7 +645,7 @@ let word = [
   ['quidem', 'quidem', 'd', ['indeed']],
   ['quīnquāgintā', 'quīnquāgintā', 'a', ['fifty']],
   ['quīnque', 'quīnque', 'a', ['five']],
-  ['quis? quid?', 'quis? quid?', 'r', ['who what']],
+  ['quis? quid?', 'quis? quid?', 'r', ['who', 'what', 'who what']],
   ['quō', 'quō', 'd', ['where', 'where to']],
   ['quod', 'quod', 'c', ['because']],
   ['quō modō', 'quō modō', 'z', ['how', 'in what way']],
