@@ -154,7 +154,7 @@ let word = [
   ['coquō', 'coquō, coquere, coxī, coctus', 'v', ['cook']],
   ['coquus', 'coquus, coquī, m.', 'n', ['cook']],
   ['corpus', 'corpus, corporis, n.', 'n', ['body']],
-  ['cotīdiē', 'cotīdiē', 'd', ['every day']],
+  ['cotīdiē', 'cotīdiē', 'd', ['every day', 'everyday']],
   ['crās', 'crās', 'd', ['tomorrow']],
   ['crēdō', 'crēdō, crēdere, crēdidī', 'v', ['trust', 'believe', 'have faith in']],
   ['crīmen', 'crīmen, crīminis, n.', 'n', ['charge']],
