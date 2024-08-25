@@ -25,7 +25,7 @@ let word = [
   ['affirmō', 'affirmō, affirmāre, affirmāvī', 'v', ['declare']],
   ['ager', 'ager, agrī, m.', 'n', ['field']],
   ['agitō', 'agitō, agitāre, agitāvī, agitātus', 'v', ['chase', 'hunt']],
-  ['agmen', 'agmen, agminis, n.', 'n', ['column of men', 'procession']],
+  ['agmen', 'agmen, agminis, n.', 'n', ['column', 'column of men', 'procession']],
   ['agnōscō', 'agnōscō, agnōscere, agnōvī, agnitus', 'v', ['recognise']],
   ['agō', 'agō, agere, ēgī, āctus', 'v', ['do', 'act']],
   ['agricola', 'agricola, agricolae, m.', 'n', ['farmer']],
